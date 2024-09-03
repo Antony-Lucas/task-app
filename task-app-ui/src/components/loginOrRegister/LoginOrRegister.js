@@ -1,9 +1,20 @@
-import React from "react";
+import React, { useEffect } from "react";
 import useLoginHook from "./LoginOrRegisterHook";
+import { useAuth } from "../../scripts/services/authServices/authContext";
+import { useNavigate } from "react-router-dom";
 
 const LoginOrRegister = () => {
   const { email, setEmail, password, setPassword, handleSubmit } =
     useLoginHook();
+  const { auth } = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (auth) {
+      navigate("/home");
+    }
+  }, [auth, navigate]);
+
   return (
     <div>
       <h1>Login</h1>

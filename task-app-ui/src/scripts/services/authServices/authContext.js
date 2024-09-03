@@ -8,28 +8,61 @@ export function AuthProvider({ children }) {
   const [auth, setAuth] = useState(null);
   const ApiUrl = "http://localhost:3000/";
 
+  useEffect(() => {
+    const storedAuth = localStorage.getItem("auth");
+    if (storedAuth) {
+      setAuth(JSON.parse(storedAuth));
+    } else {
+      setAuth(false);
+    }
+  }, []);
+
   const login = async (email, password) => {
     try {
-      const response = await axios.post(ApiUrl + "auth/login", {
-        email,
-        password,
-      });
+      console.log("Enviando requisição:", { email, password });
+      const response = await axios.post(
+        ApiUrl + "auth/login",
+        { email, password },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
       setAuth(response.data);
+      localStorage.setItem("auth", JSON.stringify(response.data));
       localStorage.setItem("access_token", response.data.access_token);
       localStorage.setItem("refresh_token", response.data.refresh_token);
+      startTokenRefreshInterval();
     } catch (error) {
-      console.error("A tentativa de login falhou", error);
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.message
+      ) {
+        console.error("Erro de login:", error.response.data.message);
+      } else {
+        console.error("A tentativa de login falhou", error);
+      }
     }
   };
 
   const logout = async () => {
-    const refreshToken = localStorage.getItem("refresh_token");
-    const response = await axios.post(ApiUrl + "auth/logout", {
-      refresh_token: refreshToken,
-    });
-    setAuth(response.data);
-    localStorage.removeItem("access_token");
-    localStorage.removeItem("refresh_token");
+    try {
+      const refreshToken = localStorage.getItem("refresh_token");
+      await axios.post(ApiUrl + "auth/logout", {
+        refresh_token: refreshToken,
+      });
+    } catch (error) {
+      console.log("Ocorreu um erro ao realizar o logout" + error);
+    } finally {
+      setAuth(null);
+      localStorage.removeItem("auth");
+      localStorage.removeItem("access_token");
+      localStorage.removeItem("refresh_token");
+      clearTokenRefreshInterval();
+    }
   };
 
   const refreshToken = async () => {
@@ -46,15 +79,36 @@ export function AuthProvider({ children }) {
     }
   };
 
-  useEffect(() => {
+  function isTokenExpiringSoon(token) {
+    if (!token) return true;
+    const { exp } = jwtDecode(token);
+    const currentTime = Math.floor(Date.now() / 1000);
+    const timeLeft = exp - currentTime;
+    return timeLeft < 180;
+  }
+
+  function startTokenRefreshInterval() {
+    clearTokenRefreshInterval();
+
     const interval = setInterval(() => {
       const token = localStorage.getItem("access_token");
+      console.log(token);
       if (isTokenExpiringSoon(token)) {
         refreshToken();
       }
     }, 3 * 60 * 1000);
 
-    return () => clearInterval(interval);
+    setAuth((prevAuth) => ({ ...prevAuth, interval }));
+  }
+
+  function clearTokenRefreshInterval() {
+    if (auth?.interval) {
+      clearInterval(auth.interval);
+    }
+  }
+
+  useEffect(() => {
+    return () => clearTokenRefreshInterval();
   });
 
   const value = {
@@ -69,12 +123,4 @@ export function AuthProvider({ children }) {
 
 export function useAuth() {
   return useContext(AuthContext);
-}
-
-function isTokenExpiringSoon(token) {
-  if (!token) return true;
-  const { exp } = jwtDecode(token);
-  const currentTime = Math.floor(Date.now() / 1000);
-  const timeLeft = exp - currentTime;
-  return timeLeft < 180;
 }

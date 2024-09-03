@@ -4,6 +4,10 @@ import { useAuth } from "../../scripts/services/authServices/authContext";
 
 function PrivateRoute() {
   const { auth } = useAuth();
+  console.log(auth);
+  if (auth === null) {
+    return <p>Loading...</p>;
+  }
 
   return auth ? <Outlet /> : <Navigate to="/login" />;
 }
