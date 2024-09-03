@@ -11,6 +11,7 @@ import { AccessToken, refreshTokenDTO } from 'src/types/AccessToken';
 import { CreateUserDto } from 'src/user/dto/create-user.dto';
 import { loginDTO } from './dto/login.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { UserResponseDto } from './dto/user.response.dto';
 
 @Injectable()
 export class AuthService {
@@ -19,6 +20,10 @@ export class AuthService {
     private readonly jwtService: JwtService,
     private readonly prisma: PrismaService,
   ) {}
+
+  async checkAuth(userId: number) {
+    return this.userService.findOne(userId);
+  }
 
   async validateUser(email: string, password: string): Promise<User> {
     const user: User = await this.userService.findOneByEmail(email);
@@ -59,7 +64,11 @@ export class AuthService {
 
   async login(
     loginDto: loginDTO,
-  ): Promise<{ access_token: string; refresh_token: string }> {
+  ): Promise<{
+    access_token: string;
+    refresh_token: string;
+    userData: UserResponseDto;
+  }> {
     const { email, password } = loginDto;
 
     const user = await this.validateUser(email, password);
@@ -73,7 +82,19 @@ export class AuthService {
     });
 
     await this.storeRefreshToken(refreshToken, user.id);
-    return { access_token: accessToken, refresh_token: refreshToken };
+    const userResponse: UserResponseDto = {
+      id: user.id,
+      username: user.username,
+      name: user.name,
+      email: user.email,
+      createdAt: user.createdAt,
+      updatedAt: user.updatedAt,
+    };
+    return {
+      access_token: accessToken,
+      refresh_token: refreshToken,
+      userData: userResponse,
+    };
   }
 
   async logout(refreshToken: refreshTokenDTO): Promise<void> {
