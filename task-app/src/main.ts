@@ -6,7 +6,16 @@ import { INestApplication } from '@nestjs/common';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   swaggerConfig(app);
+  corsManagement(app);
   await app.listen(3000);
+}
+
+function corsManagement(app: INestApplication) {
+  app.enableCors({
+    origin: 'http://localhost:8080',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
+  });
 }
 
 function swaggerConfig(app: INestApplication) {

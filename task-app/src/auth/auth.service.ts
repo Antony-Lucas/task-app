@@ -12,6 +12,7 @@ import { CreateUserDto } from 'src/user/dto/create-user.dto';
 import { loginDTO } from './dto/login.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { UserResponseDto } from './dto/user.response.dto';
+import { formatUser } from 'src/utils/date.util';
 
 @Injectable()
 export class AuthService {
@@ -42,7 +43,7 @@ export class AuthService {
       throw new UnauthorizedException('Invalid email or password');
     }
 
-    return user;
+    return formatUser(user);
   }
 
   async register(user: CreateUserDto): Promise<AccessToken> {
@@ -62,9 +63,7 @@ export class AuthService {
     return this.login({ email: user.email, password: user.password });
   }
 
-  async login(
-    loginDto: loginDTO,
-  ): Promise<{
+  async login(loginDto: loginDTO): Promise<{
     access_token: string;
     refresh_token: string;
     userData: UserResponseDto;

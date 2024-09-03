@@ -1,14 +1,25 @@
-import "./App.css";
-import { Route, Router, Routes } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import LoginOrRegister from "./components/loginOrRegister/LoginOrRegister";
-import PrivateRoute from "./components/privateRoute/privateRoute";
 import Home from "./components/home/Home";
+import PrivateRoute from "./components/privateRoute/PrivateRoute";
 
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route
+          path="/"
+          element={
+            <PrivateRoute>
+              <Navigate to="/home" />
+            </PrivateRoute>
+          }
+        />
         <Route path="/login" element={<LoginOrRegister />} />
         <Route
           path="/home"
