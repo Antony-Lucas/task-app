@@ -42,8 +42,12 @@ export function AuthProvider({ children }) {
         error.response.data.message
       ) {
         console.error("Erro de login:", error.response.data.message);
+        setAuth(null);
+        throw error;
       } else {
         console.error("A tentativa de login falhou", error);
+        setAuth(null);
+        throw error;
       }
     }
   };

@@ -1,0 +1,11 @@
+.form-input {
+  font-family: "Poppins", sans-serif;
+  border: none;
+  background-color: #f2f2f2;
+  padding: 10px;
+  border-radius: 3px;
+  margin-top: 5px;
+  font-size: 0.8rem;
+  width: 95%;
+  outline: none;
+}
