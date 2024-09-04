@@ -1,6 +1,7 @@
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import { createContext, useContext, useEffect, useState } from "react";
+import ErrorToastMessage from "../toastServices/ToastServices";
 
 const AuthContext = createContext();
 
@@ -36,19 +37,19 @@ export function AuthProvider({ children }) {
       localStorage.setItem("refresh_token", response.data.refresh_token);
       startTokenRefreshInterval();
     } catch (error) {
+      let errorMessage =
+        "A tentativa de login falhou, verifique sua conexão com servidor";
       if (
         error.response &&
         error.response.data &&
         error.response.data.message
       ) {
-        console.error("Erro de login:", error.response.data.message);
-        setAuth(null);
-        throw error;
-      } else {
-        console.error("A tentativa de login falhou", error);
-        setAuth(null);
-        throw error;
+        errorMessage = `Erro: ${error.response.data.message}`;
       }
+      setAuth(null);
+      ErrorToastMessage(errorMessage);
+
+      throw error;
     }
   };
 

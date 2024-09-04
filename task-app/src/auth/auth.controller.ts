@@ -52,12 +52,12 @@ export class AuthController {
   ): Promise<UserResponseDto> {
     const userId = req.user?.sub;
     if (!userId) {
-      throw new UnauthorizedException('User not authenticated');
+      throw new UnauthorizedException('Usuário não autenticado');
     }
 
     const user = await this.authService.checkAuth(userId);
     if (!user) {
-      throw new UnauthorizedException('User not found');
+      throw new UnauthorizedException('Usuário não encontrado');
     }
 
     return {

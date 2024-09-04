@@ -8,8 +8,27 @@ import LoginOrRegister from "./components/loginOrRegister/LoginOrRegister";
 import Home from "./components/home/Home";
 import PrivateRoute from "./components/privateRoute/PrivateRoute";
 import { AuthProvider } from "./scripts/services/authServices/authContext";
+import { useEffect, useState } from "react";
+import ReactLoading from "react-loading";
+import "./App.css";
 
 function App() {
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    const timeOut = setTimeout(() => {
+      setLoading(false);
+    }, 2500);
+
+    return () => clearTimeout(timeOut);
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="loading-style">
+        <ReactLoading type="spin" color="#157bff" height={30} width={30} />
+      </div>
+    );
+  }
   return (
     <AuthProvider>
       <Router>

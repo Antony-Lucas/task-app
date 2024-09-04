@@ -30,7 +30,7 @@ export class AuthService {
     const user: User = await this.userService.findOneByEmail(email);
     if (!user) {
       throw new BadRequestException(
-        'Não existe nenhuma conta com esse nome de usuário ou email',
+        'Não encontramos uma conta associada a esse endereço de email',
       );
     }
     const isAuth: boolean = bcrypt.compareSync(password, user.password);

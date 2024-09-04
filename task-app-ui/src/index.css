@@ -41,3 +41,7 @@ label {
   font-size: 0.7rem;
   color: #808080;
 }
+
+.Toastify__toast-body {
+  font-size: 0.8rem;
+}
