@@ -1,0 +1,137 @@
+.container-side {
+  display: flex;
+  background-color: #f4f6f8;
+  height: 100vh;
+}
+
+.sidebar {
+  background-color: #fff;
+  padding: 20px;
+  position: relative;
+  transition: width 0.3s;
+  border-right: solid 5px #f4f6f8;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
+}
+
+.sidebar.open {
+  width: 8rem;
+}
+
+.sidebar.closed {
+  width: 2.5rem;
+}
+
+.control {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  right: -14px;
+  top: 24px;
+  width: 28px;
+  height: 27px;
+  border: 2px solid #157bff;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: transform 0.3s;
+  background-color: #fff;
+}
+
+.control.rotate {
+  transform: rotate(180deg);
+}
+
+.logo-section {
+  display: flex;
+  align-items: center;
+  justify-content: baseline;
+  width: 10rem;
+  height: 40px;
+}
+
+.logo {
+  cursor: pointer;
+  transition: transform 0.5s;
+}
+
+.title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-left: 14px;
+  width: 80px;
+  transition: transform 0.2s;
+}
+
+.hidden-title {
+  width: 80px;
+  transform: scale(0);
+}
+
+.menu {
+  padding-top: 24px;
+  padding-left: 2px;
+}
+
+.menu-container {
+  display: flex;
+  justify-content: baseline;
+  align-items: center;
+  transition: 0.2s;
+}
+
+.menu-item {
+  text-decoration: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  margin-top: 8px;
+  cursor: pointer;
+  color: #000000;
+  transition: 0.2s;
+}
+
+.menu-item.active {
+  background-color: #2d3748;
+}
+
+.menu-item.gap {
+  margin-top: 36px;
+}
+
+.main-content {
+  flex: 1;
+  padding: 28px;
+}
+
+.menu-item:hover {
+  color: #ffb829;
+}
+
+.menu-item span {
+  color: #898e99;
+  transition: 0.2s;
+  margin-left: 20px;
+  font-size: 0.8rem;
+}
+
+.hidden {
+  width: 50px;
+  transform: scale(0);
+}
+
+.menu-active {
+  color: #ffb829;
+}
+
+.icon-style {
+  transform: scale(1);
+  font-size: 20px;
+}
+
+@media only screen and (max-width: 1150px) {
+  .container-side {
+    display: none;
+  }
+}

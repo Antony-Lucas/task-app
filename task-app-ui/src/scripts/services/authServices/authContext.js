@@ -111,6 +111,7 @@ export function AuthProvider({ children }) {
       const response = await axios.post(ApiUrl + "auth/refresh_token", {
         refresh_token: refreshToken,
       });
+      console.log(response);
       setAuth(response.data);
       localStorage.setItem("access_token", response.data.access_token);
     } catch (error) {

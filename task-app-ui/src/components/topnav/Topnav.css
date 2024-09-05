@@ -1,0 +1,90 @@
+.container-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #ffffff;
+  box-shadow: rgba(27, 31, 35, 0.04) 0px 1px 0px,
+    rgba(255, 255, 255, 0.25) 0px 1px 0px inset;
+  padding: 10px 30px;
+}
+
+.hamburguer-menu {
+  display: none;
+  background-color: #fff;
+  border: none;
+}
+
+.search-block {
+  display: flex;
+  align-items: center;
+  background-color: #f2f2f2;
+  border-radius: 6px;
+  padding: 0 5px;
+  width: 10rem;
+  height: 35px;
+}
+
+.icon-search {
+  font-size: 20px;
+  padding: 0 0 0 5px;
+  color: #757575;
+}
+
+.search-block input {
+  height: 8px;
+  margin: 0;
+}
+
+.user-initials {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  width: 12.5rem;
+  height: 55px;
+  background-color: #fff;
+  border: none;
+}
+
+.user-initials p {
+  background-color: #73b06f;
+  padding: 8px 11px;
+  color: #fff;
+  border-radius: 10px;
+}
+
+.menu-items {
+  display: flex;
+  justify-content: baseline;
+  align-items: baseline;
+  flex-direction: column;
+  background-color: #fff;
+  width: 150px;
+  padding: 15px;
+  border-radius: 5px;
+  box-shadow: rgba(27, 31, 35, 0.04) 0px 1px 0px,
+    rgba(255, 255, 255, 0.25) 0px 1px 0px inset;
+}
+
+.icon-style-hamburguer {
+  font-size: 30px;
+}
+
+.icon-style-menu {
+  font-size: 20px;
+  margin-right: 12px;
+}
+
+@media only screen and (max-width: 1150px) {
+  .hamburguer-menu {
+    display: block;
+  }
+
+  .user-initials {
+    width: 3rem;
+  }
+
+  .user-initials span {
+    display: none;
+  }
+}
