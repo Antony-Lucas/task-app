@@ -1,7 +1,10 @@
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import { createContext, useContext, useEffect, useState } from "react";
-import ErrorToastMessage from "../toastServices/ToastServices";
+import {
+  ErrorToastMessage,
+  SuccessToastMessage,
+} from "../toastServices/ToastServices";
 
 const AuthContext = createContext();
 
@@ -10,7 +13,7 @@ export function AuthProvider({ children }) {
   const ApiUrl = "http://localhost:3000/";
 
   useEffect(() => {
-    const storedAuth = localStorage.getItem("auth");
+    const storedAuth = localStorage.getItem("userData");
     if (storedAuth) {
       setAuth(JSON.parse(storedAuth));
     } else {
@@ -20,7 +23,6 @@ export function AuthProvider({ children }) {
 
   const login = async (email, password) => {
     try {
-      console.log("Enviando requisição:", { email, password });
       const response = await axios.post(
         ApiUrl + "auth/login",
         { email, password },
@@ -30,11 +32,13 @@ export function AuthProvider({ children }) {
           },
         }
       );
-
-      setAuth(response.data);
-      localStorage.setItem("auth", JSON.stringify(response.data));
-      localStorage.setItem("access_token", response.data.access_token);
-      localStorage.setItem("refresh_token", response.data.refresh_token);
+      const { access_token, refresh_token, userData } = response.data;
+      const firstName = userData.name.split(" ")[0];
+      setAuth(response.data.userData);
+      localStorage.setItem("userData", JSON.stringify(userData));
+      localStorage.setItem("access_token", access_token);
+      localStorage.setItem("refresh_token", refresh_token);
+      SuccessToastMessage(`Bem-vindo novamente ${firstName} 😎🔥`);
       startTokenRefreshInterval();
     } catch (error) {
       let errorMessage =
@@ -53,6 +57,37 @@ export function AuthProvider({ children }) {
     }
   };
 
+  const signUp = async (name, username, email, password) => {
+    try {
+      console.log(name, username, email, password);
+      const response = await axios.post(ApiUrl + "auth/signup", {
+        name,
+        username,
+        email,
+        password,
+      });
+      const { access_token, refresh_token, userData } = response.data;
+      setAuth(response.data.userData);
+      localStorage.setItem("userData", JSON.stringify(userData));
+      localStorage.setItem("access_token", access_token);
+      localStorage.setItem("refresh_token", refresh_token);
+      SuccessToastMessage(`Olá '${username}' seja bem vindo ao My tasks`);
+    } catch (error) {
+      console.log(error);
+      let errorMessage =
+        "A tentativa de registro falhou, verifique sua conexão com servidor";
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.message
+      ) {
+        errorMessage = `Erro: ${error.response.data.message}`;
+      }
+      setAuth(null);
+      ErrorToastMessage(errorMessage);
+    }
+  };
+
   const logout = async () => {
     try {
       const refreshToken = localStorage.getItem("refresh_token");
@@ -63,7 +98,7 @@ export function AuthProvider({ children }) {
       console.log("Ocorreu um erro ao realizar o logout" + error);
     } finally {
       setAuth(null);
-      localStorage.removeItem("auth");
+      localStorage.removeItem("userData");
       localStorage.removeItem("access_token");
       localStorage.removeItem("refresh_token");
       clearTokenRefreshInterval();
@@ -120,6 +155,7 @@ export function AuthProvider({ children }) {
     auth,
     login,
     logout,
+    signUp,
     refreshToken,
   };
 

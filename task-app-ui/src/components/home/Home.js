@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 const Home = () => {
   const { auth, logout } = useAuth();
   const navigate = useNavigate();
-
+  console.log(auth);
   const handleLogout = async () => {
     await logout();
     navigate("/login");
@@ -13,7 +13,7 @@ const Home = () => {
 
   return (
     <div>
-      <h1>Teste {auth?.user?.email}</h1>
+      <h1>Teste {auth ? auth.name : "Carregando..."}</h1>
       <button onClick={handleLogout}>Logout</button>
     </div>
   );

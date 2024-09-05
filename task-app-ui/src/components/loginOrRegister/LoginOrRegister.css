@@ -6,7 +6,7 @@
 }
 
 .image-container {
-  width: 100%;
+  width: 75%;
   background-color: #ffb829;
 }
 
@@ -15,18 +15,24 @@
   height: 100%;
 }
 
-.login-container {
+.login-signup-container {
   background-color: #ffffff;
   padding: 50px;
+  width: 25%;
 }
 
-.login-container img {
+.login-signup-container img {
   font-size: 5px;
-  height: 90px;
+  height: 80px;
 }
 
-.login-form {
+.main-form {
   width: 100%;
+}
+
+.main-form small {
+  font-size: 0.6rem;
+  color: #ffb829;
 }
 
 .container-divider {
@@ -45,9 +51,53 @@
   margin: 20px 0;
 }
 
+.isLogging {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 250px;
+}
+
 .signup-link {
   justify-content: center;
   align-items: center;
   display: flex;
   width: 100%;
+}
+
+@media only screen and (max-width: 1150px) {
+  .login-signup-container {
+    width: 40%;
+    padding: 10px 50px;
+  }
+}
+
+@media only screen and (max-width: 750px) {
+  .main-container {
+    justify-content: center;
+    align-items: center;
+  }
+
+  .image-container {
+    display: none;
+  }
+
+  .login-signup-container {
+    width: 100%;
+    padding: 30px 50px;
+  }
+
+  .login-signup-container img {
+    height: 60px;
+  }
+
+  .login-signup-container h3 {
+    margin: 2px;
+  }
+
+  .main-form small {
+    font-size: 0.55rem;
+  }
 }

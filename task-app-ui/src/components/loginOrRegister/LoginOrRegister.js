@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import useLoginHook from "./LoginOrRegisterHook";
+import useLoginSignupHook from "./LoginOrRegisterHook";
 import { useAuth } from "../../scripts/services/authServices/authContext";
 import { useNavigate } from "react-router-dom";
 import mainCharLogin from "../../assets/icons/loginOrRegister/3d_char_login.svg";
@@ -12,73 +12,177 @@ import "././../../styles/components/buttons/PrimaryButtons.css";
 import "././../../styles/components/buttons/LinkButtons.css";
 
 const LoginOrRegister = () => {
-  const [loading, setLoading] = useState(false);
-  const { auth } = useAuth();
   const navigate = useNavigate();
-
-  const { email, setEmail, password, setPassword, handleSubmit } =
-    useLoginHook(setLoading);
+  const [loading, setLoading] = useState(false);
+  const [isSignup, setIsSignup] = useState(false);
+  const [isLogging, setIsLogging] = useState(false);
+  const { auth } = useAuth();
+  const {
+    name,
+    setName,
+    username,
+    setUserName,
+    email,
+    setEmail,
+    password,
+    setPassword,
+    handleSubmit,
+    handleSignUp,
+    validateUsername,
+  } = useLoginSignupHook(setLoading, setIsLogging);
 
   useEffect(() => {
-    console.log(auth);
     if (auth) {
       const timeOut = setTimeout(() => {
         setLoading(true);
       }, 1000);
-      navigate("/home");
       return clearTimeout(timeOut);
     }
   }, [auth, navigate]);
+
+  const HandleUSerNameChange = (e) => {
+    const { value } = e.target;
+    if (value === "" || validateUsername(value)) {
+      setUserName(value);
+    }
+  };
+
+  const toggleForm = () => {
+    setIsSignup(!isSignup);
+  };
 
   return (
     <div className="main-container">
       <div className="image-container">
         <img src={mainCharLogin} alt="3D character" />
       </div>
-      <div className="login-container">
+      <div className="login-signup-container">
         <div>
           <img src={logoMyAsks} alt="My tasks" />
           <h3>My tasks</h3>
         </div>
         <p>Escreva, planeje e organize do seu jeito</p>
-        <form className="login-form" onSubmit={handleSubmit}>
-          <label>Email</label>
-          <input
-            className="form-input"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="me@email.com"
-            required
-          ></input>
-          <label>Senha</label>
-          <input
-            className="form-input"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="••••••••"
-            required
-          ></input>
-          <button className="button-primary" type="submit" disabled={loading}>
-            {loading ? (
-              <ReactLoading
-                type="spin"
-                color="#ffffff"
-                height={20}
-                width={20}
-              />
-            ) : (
-              "Login"
-            )}
-          </button>
-        </form>
-        <div className="container-divider">
-          <hr />
-        </div>
+        {!isLogging && !isSignup && (
+          <form className="main-form" onSubmit={handleSubmit}>
+            <label>Email</label>
+            <input
+              className="form-input"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="me@email.com"
+              required
+            ></input>
+            <label>Senha</label>
+            <input
+              className="form-input"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="••••••••"
+              autoComplete="current-password"
+              required
+            ></input>
+            <button className="button-primary" type="submit" disabled={loading}>
+              {loading ? (
+                <ReactLoading
+                  type="spin"
+                  color="#ffffff"
+                  height={20}
+                  width={20}
+                />
+              ) : (
+                "Login"
+              )}
+            </button>
+          </form>
+        )}
+        {!isLogging && isSignup && (
+          <form className="main-form" onSubmit={handleSignUp}>
+            <label>Nome completo</label>
+            <input
+              className="form-input"
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Seu Nome"
+              required
+            />
+            <label>Nome de usuário</label>
+            <input
+              className="form-input"
+              type="text"
+              placeholder="seu_nome"
+              value={username}
+              onChange={HandleUSerNameChange}
+              required
+            />
+            <small className="input-hint">
+              Pode conter apenas letras minúsculas, números, _ e .
+            </small>
+            <br />
+            <label>Email</label>
+            <input
+              className="form-input"
+              type="email"
+              placeholder="me@email.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+            <label>Senha</label>
+            <input
+              className="form-input"
+              type="password"
+              placeholder="••••••••"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              autoComplete="current-password"
+              required
+            />
+            <button className="button-primary" type="submit" disabled={loading}>
+              {loading ? (
+                <ReactLoading
+                  type="spin"
+                  color="#157bff"
+                  height={30}
+                  width={30}
+                />
+              ) : (
+                "Criar Conta"
+              )}
+            </button>
+          </form>
+        )}
+        {isLogging && (
+          <div className="isLogging">
+            <ReactLoading type="spin" color="#157bff" height={20} width={20} />
+            <p>Entrando...</p>
+          </div>
+        )}
+        {!isLogging && (
+          <div className="container-divider">
+            <hr />
+          </div>
+        )}
         <div className="signup-link">
-          <small>Novo por aqui?</small>
-          <button className="button-link">Crie uma conta</button>
+          {isSignup
+            ? !isLogging && (
+                <>
+                  <small>Já tem uma conta?</small>
+                  <button className="button-link" onClick={toggleForm}>
+                    Faça login
+                  </button>
+                </>
+              )
+            : !isLogging && (
+                <>
+                  <small>Novo por aqui?</small>
+                  <button className="button-link" onClick={toggleForm}>
+                    Crie uma conta
+                  </button>
+                </>
+              )}
         </div>
       </div>
     </div>
