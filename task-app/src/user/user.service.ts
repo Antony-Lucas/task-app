@@ -1,8 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { formatUser } from 'src/utils/date.util';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UserService {
@@ -39,9 +40,31 @@ export class UserService {
   }
 
   async update(id: number, updateUserDto: UpdateUserDto) {
+    const updateData: UpdateUserDto = { ...updateUserDto };
+    if (updateUserDto.email) {
+      const existingUser = await this.prisma.user.findFirst({
+        where: {
+          email: updateUserDto.email,
+          NOT: { id },
+        },
+      });
+
+      if (existingUser) {
+        throw new BadRequestException(
+          'Este email já está associado a uma conta.',
+        );
+      }
+    }
+
+    if (updateUserDto.password) {
+      updateData.password = await bcrypt.hash(updateUserDto.password, 10);
+    } else {
+      delete updateData.password;
+    }
+
     const user = await this.prisma.user.update({
       where: { id },
-      data: updateUserDto,
+      data: updateData,
     });
 
     return formatUser(user);

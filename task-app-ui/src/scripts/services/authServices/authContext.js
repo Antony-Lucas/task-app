@@ -5,15 +5,16 @@ import {
   ErrorToastMessage,
   SuccessToastMessage,
 } from "../toastServices/ToastServices";
+import { apiUrl } from "../../../env/environment";
 
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
   const [auth, setAuth] = useState(null);
-  const ApiUrl = "http://localhost:3000/";
+  const ApiUrl = apiUrl;
 
   useEffect(() => {
-    const storedAuth = localStorage.getItem("userData");
+    const storedAuth = sessionStorage.getItem("userData");
     if (storedAuth) {
       setAuth(JSON.parse(storedAuth));
     } else {
@@ -35,10 +36,13 @@ export function AuthProvider({ children }) {
       const { access_token, refresh_token, userData } = response.data;
       const firstName = userData.name.split(" ")[0];
       setAuth(response.data.userData);
-      localStorage.setItem("userData", JSON.stringify(userData));
-      localStorage.setItem("access_token", access_token);
-      localStorage.setItem("refresh_token", refresh_token);
-      SuccessToastMessage(`Bem-vindo novamente ${firstName} 😎🔥`);
+      sessionStorage.setItem("userData", JSON.stringify(userData));
+      sessionStorage.setItem("access_token", access_token);
+      sessionStorage.setItem("refresh_token", refresh_token);
+      SuccessToastMessage(
+        `Bem-vindo novamente ${firstName} 😎🔥`,
+        "top-center"
+      );
       startTokenRefreshInterval();
     } catch (error) {
       let errorMessage =
@@ -51,7 +55,7 @@ export function AuthProvider({ children }) {
         errorMessage = `Erro: ${error.response.data.message}`;
       }
       setAuth(null);
-      ErrorToastMessage(errorMessage);
+      ErrorToastMessage(errorMessage, "top-right");
 
       throw error;
     }
@@ -59,7 +63,6 @@ export function AuthProvider({ children }) {
 
   const signUp = async (name, username, email, password) => {
     try {
-      console.log(name, username, email, password);
       const response = await axios.post(ApiUrl + "auth/signup", {
         name,
         username,
@@ -68,10 +71,13 @@ export function AuthProvider({ children }) {
       });
       const { access_token, refresh_token, userData } = response.data;
       setAuth(response.data.userData);
-      localStorage.setItem("userData", JSON.stringify(userData));
-      localStorage.setItem("access_token", access_token);
-      localStorage.setItem("refresh_token", refresh_token);
-      SuccessToastMessage(`Olá '${username}' seja bem vindo ao My tasks`);
+      sessionStorage.setItem("userData", JSON.stringify(userData));
+      sessionStorage.setItem("access_token", access_token);
+      sessionStorage.setItem("refresh_token", refresh_token);
+      SuccessToastMessage(
+        `Olá '${username}' seja bem vindo ao My tasks`,
+        "top-center"
+      );
     } catch (error) {
       console.log(error);
       let errorMessage =
@@ -84,36 +90,43 @@ export function AuthProvider({ children }) {
         errorMessage = `Erro: ${error.response.data.message}`;
       }
       setAuth(null);
-      ErrorToastMessage(errorMessage);
+      ErrorToastMessage(errorMessage, "top-right");
     }
   };
 
   const logout = async () => {
     try {
-      const refreshToken = localStorage.getItem("refresh_token");
+      const refreshToken = sessionStorage.getItem("refresh_token");
       await axios.post(ApiUrl + "auth/logout", {
         refresh_token: refreshToken,
       });
     } catch (error) {
-      console.log("Ocorreu um erro ao realizar o logout" + error);
+      ErrorToastMessage(
+        "Ocorreu um erro ao realizar o logout" + error,
+        "top-center"
+      );
     } finally {
       setAuth(null);
-      localStorage.removeItem("userData");
-      localStorage.removeItem("access_token");
-      localStorage.removeItem("refresh_token");
+      sessionStorage.removeItem("userData");
+      sessionStorage.removeItem("access_token");
+      sessionStorage.removeItem("refresh_token");
       clearTokenRefreshInterval();
     }
   };
 
   const refreshToken = async () => {
     try {
-      const refreshToken = localStorage.getItem("refresh_token");
+      const refreshToken = sessionStorage.getItem("refresh_token");
       const response = await axios.post(ApiUrl + "auth/refresh_token", {
         refresh_token: refreshToken,
       });
-      console.log(response);
-      setAuth(response.data);
-      localStorage.setItem("access_token", response.data.access_token);
+      setAuth((prevAuth) => ({
+        ...prevAuth,
+        access_token: response.data.access_token,
+        refresh_token: response.data.refresh_token,
+      }));
+      sessionStorage.setItem("access_token", response.data.access_token);
+      sessionStorage.setItem("refresh_token", response.data.refresh_token);
     } catch (error) {
       console.error("Refresh token failed", error);
       logout();
@@ -132,7 +145,7 @@ export function AuthProvider({ children }) {
     clearTokenRefreshInterval();
 
     const interval = setInterval(() => {
-      const token = localStorage.getItem("access_token");
+      const token = sessionStorage.getItem("access_token");
       console.log(token);
       if (isTokenExpiringSoon(token)) {
         refreshToken();

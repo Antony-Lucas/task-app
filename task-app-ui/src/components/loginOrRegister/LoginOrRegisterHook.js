@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useAuth } from "../../scripts/services/authServices/authContext";
 import { useNavigate } from "react-router-dom";
+import useUser from "../../scripts/hooks/useUser";
 
 function useLoginSignupHook(setLoading, setIsLogging) {
   const [name, setName] = useState("");
@@ -8,6 +9,7 @@ function useLoginSignupHook(setLoading, setIsLogging) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { login, signUp } = useAuth();
+  const { fetchUserData } = useUser();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -16,9 +18,10 @@ function useLoginSignupHook(setLoading, setIsLogging) {
     try {
       await login(email, password);
       setIsLogging(true);
+      await fetchUserData();
       setTimeout(() => {
         navigate("/home");
-      }, 1500);
+      }, 1300);
     } catch (error) {
       console.log(error);
     } finally {
@@ -32,9 +35,10 @@ function useLoginSignupHook(setLoading, setIsLogging) {
     try {
       await signUp(name, username, email, password);
       setIsLogging(true);
+      await fetchUserData();
       setTimeout(() => {
         navigate("/home");
-      }, 1500);
+      }, 1300);
     } catch (e) {
       console.log(e);
     } finally {

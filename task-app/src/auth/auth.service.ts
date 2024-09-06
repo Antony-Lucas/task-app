@@ -40,7 +40,7 @@ export class AuthService {
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      throw new UnauthorizedException('Invalid email or password');
+      throw new UnauthorizedException('Email ou senha inválido(s)');
     }
 
     return formatUser(user);
@@ -49,7 +49,9 @@ export class AuthService {
   async register(user: CreateUserDto): Promise<AccessToken> {
     const existingUser = await this.userService.findOneByEmail(user.email);
     if (existingUser) {
-      throw new BadRequestException('Este Email ja está associado a uma conta');
+      throw new BadRequestException(
+        'Este Email ja está associado a uma conta.',
+      );
     }
 
     const hashedPassword = await bcrypt.hash(user.password, 10);
@@ -131,18 +133,18 @@ export class AuthService {
     });
 
     if (!refreshToken) {
-      throw new UnauthorizedException('Invalid refresh token');
+      throw new UnauthorizedException('Reefresh token inválido');
     }
 
     if (refreshToken.expiresAt < new Date()) {
-      throw new UnauthorizedException('Refresh token expired');
+      throw new UnauthorizedException('Refresh token expirou');
     }
 
     const user = await this.prisma.user.findUnique({
       where: { id: refreshToken.userId },
     });
     if (!user) {
-      throw new UnauthorizedException('User not found');
+      throw new UnauthorizedException('Usuário não encontrado');
     }
 
     const payload = { email: user.email, sub: user.id };

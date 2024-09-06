@@ -1,14 +1,14 @@
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-export const SuccessToastMessage = (message) => {
+export const SuccessToastMessage = (message, position) => {
   toast.success(message, {
-    position: "top-right",
+    position: position,
   });
 };
 
-export const ErrorToastMessage = (message) => {
+export const ErrorToastMessage = (message, position) => {
   toast.error(message, {
-    position: "top-right",
+    position: position,
   });
 };

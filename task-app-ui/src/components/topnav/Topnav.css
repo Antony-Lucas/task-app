@@ -20,7 +20,7 @@
   background-color: #f2f2f2;
   border-radius: 6px;
   padding: 0 5px;
-  width: 10rem;
+  width: 20rem;
   height: 35px;
 }
 
@@ -38,17 +38,23 @@
 .user-initials {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
   cursor: pointer;
-  width: 12.5rem;
+  width: 12rem;
   height: 55px;
   background-color: #fff;
   border: none;
 }
 
-.user-initials p {
+.user-initials span:nth-child(1) {
+  margin-right: 12px;
+}
+
+.user-initials span:nth-child(2) {
   background-color: #73b06f;
-  padding: 8px 11px;
+  width: 15px;
+  height: 20px;
+  padding: 7px 10px;
   color: #fff;
   border-radius: 10px;
 }
@@ -66,6 +72,29 @@
     rgba(255, 255, 255, 0.25) 0px 1px 0px inset;
 }
 
+.user-details-modal {
+  margin-top: 15px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.user-details-modal div {
+  display: flex;
+  align-items: center;
+}
+
+.user-details-modal button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  border: none;
+  border-radius: 50px;
+  padding: 8px;
+}
+
 .icon-style-hamburguer {
   font-size: 30px;
 }
@@ -75,16 +104,25 @@
   margin-right: 12px;
 }
 
-@media only screen and (max-width: 1150px) {
+.icon-delete-profile {
+  font-size: 20px;
+  color: #ef4444;
+}
+
+@media only screen and (max-width: 750px) {
   .hamburguer-menu {
     display: block;
+  }
+
+  .user-initials span:nth-child(1) {
+    display: none;
   }
 
   .user-initials {
     width: 3rem;
   }
 
-  .user-initials span {
-    display: none;
+  .search-block {
+    width: 11rem;
   }
 }

@@ -145,8 +145,8 @@ const LoginOrRegister = () => {
                 <ReactLoading
                   type="spin"
                   color="#157bff"
-                  height={30}
-                  width={30}
+                  height={20}
+                  width={20}
                 />
               ) : (
                 "Criar Conta"
