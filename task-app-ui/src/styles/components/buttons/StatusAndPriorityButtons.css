@@ -18,19 +18,25 @@
 }
 
 .status-button:nth-child(1),
-.priority-button:nth-child(3) {
+.priority-button:nth-child(3),
+.status-PENDING,
+.priority-HIGH {
   background-color: #fdecec;
   color: #832525;
 }
 
 .status-button:nth-child(2),
-.priority-button:nth-child(2) {
+.priority-button:nth-child(2),
+.status-IN_PROGRESS,
+.priority-MEDIUM {
   background-color: #fdf7e6;
   color: #816204;
 }
 
 .status-button:nth-child(3),
-.priority-button:nth-child(1) {
+.priority-button:nth-child(1),
+.status-COMPLETED,
+.priority-LOW {
   background-color: #d8f5e1;
   color: #285e34;
 }

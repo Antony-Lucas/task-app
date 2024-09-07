@@ -25,7 +25,22 @@ const Home = () => {
 
   return (
     <div className="home-container">
-      <small>Quadro</small>
+      <div className="board-add-task">
+        <small>Quadro</small>
+        <button
+          className="button-primary button-primary-home"
+          onClick={openOpenTaskModal}
+        >
+          <span>Adicionar tarefa</span>
+          <HiOutlinePlus className="icon-default" />
+        </button>
+        <button
+          className="button-primary button-primary-home responsive-button"
+          onClick={openOpenTaskModal}
+        >
+          <HiOutlinePlus className="icon-default" />
+        </button>
+      </div>
       <div className="board-cards-container">
         <div className="card-board">
           <p>Pendente</p>
@@ -43,21 +58,6 @@ const Home = () => {
           <p>Total</p>
           <h3>{taskCounts.total}</h3>
         </div>
-      </div>
-      <div className="board-add-task">
-        <button
-          className="button-primary button-primary-home"
-          onClick={openOpenTaskModal}
-        >
-          <span>Adicionar tarefa</span>
-          <HiOutlinePlus className="icon-default" />
-        </button>
-        <button
-          className="button-primary button-primary-home responsive-button"
-          onClick={openOpenTaskModal}
-        >
-          <HiOutlinePlus className="icon-default" />
-        </button>
       </div>
       <Modal
         open={openModal}

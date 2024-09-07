@@ -6,8 +6,8 @@ import {
 
 export const getTasks = async () => {
   try {
-    const rerponse = await apiClient.get(`tasks`);
-    return rerponse.data;
+    const response = await apiClient.get(`tasks`);
+    return response.data;
   } catch (error) {
     ErrorToastMessage(
       "Não foi possível obter a lista de tarefas, por favor, verifique sua conexão com o servidor",

@@ -13,12 +13,47 @@ const useTasks = () => {
     priority: "MEDIUM",
     userId: auth.id,
   });
+
   const [taskCounts, setTaskCounts] = useState({
     pending: 0,
     inProgress: 0,
     completed: 0,
     total: 0,
   });
+
+  const formatStatus = (status) => {
+    switch (status) {
+      case "PENDING":
+        return "Pendente";
+      case "IN_PROGRESS":
+        return "Fazendo";
+      case "COMPLETED":
+        return "Concluída";
+      default:
+        return status;
+    }
+  };
+
+  const formatPriority = (priority) => {
+    switch (priority) {
+      case "LOW":
+        return "Baixa";
+      case "MEDIUM":
+        return "Média";
+      case "HIGH":
+        return "Alta";
+      default:
+        return priority;
+    }
+  };
+
+  const defaultTaskData = {
+    title: "",
+    description: "",
+    status: "PENDING",
+    priority: "MEDIUM",
+    userId: auth.id,
+  };
 
   const openOpenTaskModal = () => {
     setOpenModal(true);
@@ -33,14 +68,6 @@ const useTasks = () => {
     }));
   };
 
-  const defaultTaskData = {
-    title: "",
-    description: "",
-    status: "PENDING",
-    priority: "MEDIUM",
-    userId: auth.id,
-  };
-
   const handlePriorityChange = (priority) => {
     setTaskData((prevData) => ({
       ...prevData,
@@ -51,8 +78,9 @@ const useTasks = () => {
   const getAllTasks = async () => {
     try {
       const tasksData = await getTasks();
-      setTaskList(tasksData);
-      countTasksByStatus(tasksData);
+      const userTasks = tasksData.filter((task) => task.userId === auth.id);
+      setTaskList(userTasks);
+      countTasksByStatus(userTasks);
     } catch (error) {
       console.log(error);
     }
@@ -97,6 +125,8 @@ const useTasks = () => {
     taskList,
     taskData,
     taskCounts,
+    formatStatus,
+    formatPriority,
     setTaskData,
     openModal,
     openOpenTaskModal,

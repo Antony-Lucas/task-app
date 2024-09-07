@@ -12,23 +12,23 @@ small {
 }
 
 .board-cards-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 15px;
   width: 100%;
   margin-top: 15px;
 }
 
 .board-add-task {
   display: flex;
-  justify-content: end;
+  justify-content: space-between;
+  align-items: center;
   width: 100%;
-  margin-top: 5px;
 }
 
 .button-primary-home {
   width: 150px;
-  margin-top: 10px;
+  margin-top: 0;
 }
 
 .button-primary span {
@@ -52,11 +52,13 @@ small {
   .home-container {
     padding: 15px 35px;
   }
+
   .board-cards-container {
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
   }
 
-  .button-primary {
+  .button-primary-home {
     display: none;
   }
 

@@ -7,7 +7,6 @@ import { HiOutlineUser } from "react-icons/hi";
 import { HiOutlineLogout } from "react-icons/hi";
 import { HiOutlineTrash } from "react-icons/hi";
 import { HiOutlineHome } from "react-icons/hi2";
-import { HiOutlineClipboardList } from "react-icons/hi";
 import { HiExclamation } from "react-icons/hi";
 import { HiMenu } from "react-icons/hi";
 import { Modal } from "react-responsive-modal";
@@ -60,18 +59,6 @@ const Topnav = () => {
             >
               <HiOutlineHome className="icon-style" />
               <span>Home</span>
-            </Link>
-          </MenuItem>
-          <MenuItem>
-            <Link
-              to={Home}
-              className={`menu-item ${
-                activeMenu === "Tasks" ? "menu-active" : ""
-              }`}
-              onClick={() => handleMenuClick("Tasks")}
-            >
-              <HiOutlineClipboardList className="icon-style" />
-              <span>Tarefas</span>
             </Link>
           </MenuItem>
         </MenuItems>
