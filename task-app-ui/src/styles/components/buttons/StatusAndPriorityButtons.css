@@ -1,0 +1,46 @@
+.status-buttons,
+.priority-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.status-button,
+.priority-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  padding: 10px;
+  cursor: pointer;
+  width: 5rem;
+  height: 2rem;
+  border: none;
+}
+
+.status-button:nth-child(1),
+.priority-button:nth-child(3) {
+  background-color: #fdecec;
+  color: #832525;
+}
+
+.status-button:nth-child(2),
+.priority-button:nth-child(2) {
+  background-color: #fdf7e6;
+  color: #816204;
+}
+
+.status-button:nth-child(3),
+.priority-button:nth-child(1) {
+  background-color: #d8f5e1;
+  color: #285e34;
+}
+
+.status-button span,
+.priority-button span {
+  font-size: 0.7rem;
+}
+
+.status-button.active,
+.priority-button.active {
+  border: solid 3px #007bff;
+}

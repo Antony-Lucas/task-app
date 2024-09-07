@@ -1,12 +1,5 @@
 import axios from "axios";
-import { jwtDecode } from "jwt-decode";
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import {
   ErrorToastMessage,
   SuccessToastMessage,
@@ -50,7 +43,6 @@ export function AuthProvider({ children }) {
         `Bem-vindo novamente ${firstName} 😎🔥`,
         "top-center"
       );
-      startTokenRefreshInterval();
     } catch (error) {
       let errorMessage =
         "A tentativa de login falhou, verifique sua conexão com servidor";
@@ -119,71 +111,13 @@ export function AuthProvider({ children }) {
       sessionStorage.removeItem("userData");
       sessionStorage.removeItem("access_token");
       sessionStorage.removeItem("refresh_token");
-      clearTokenRefreshInterval();
     }
   };
-
-  const refreshToken = async () => {
-    try {
-      const refreshToken = sessionStorage.getItem("refresh_token");
-      const response = await axios.post(ApiUrl + "auth/refresh_token", {
-        refresh_token: refreshToken,
-      });
-      sessionStorage.setItem("access_token", response.data.access_token);
-      sessionStorage.setItem("refresh_token", response.data.refresh_token);
-
-      setAuth((prevAuth) => ({
-        ...prevAuth,
-        access_token: response.data.access_token,
-        refresh_token: response.data.refresh_token,
-      }));
-
-      startTokenRefreshInterval();
-    } catch (error) {
-      console.error("Refresh token failed", error);
-      logout();
-    }
-  };
-
-  function isTokenExpiringSoon(token) {
-    if (!token) return true;
-    const { exp } = jwtDecode(token);
-    const currentTime = Math.floor(Date.now() / 1000);
-    const timeLeft = exp - currentTime;
-    return timeLeft < 180;
-  }
-
-  function startTokenRefreshInterval() {
-    clearTokenRefreshInterval();
-
-    const interval = setInterval(() => {
-      const token = sessionStorage.getItem("access_token");
-      console.log(token);
-      if (isTokenExpiringSoon(token)) {
-        console.log("Token expirando, atualizando...");
-        refreshToken();
-      }
-    }, 2 * 60 * 1000);
-
-    setAuth((prevAuth) => ({ ...prevAuth, interval }));
-  }
-
-  const clearTokenRefreshInterval = useCallback(() => {
-    if (auth?.interval) {
-      clearInterval(auth.interval);
-    }
-  }, [auth]);
-
-  useEffect(() => {
-    return () => clearTokenRefreshInterval();
-  }, [clearTokenRefreshInterval]);
-
   const value = {
     auth,
     login,
     logout,
     signUp,
-    refreshToken,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

@@ -1,5 +1,9 @@
+.icon-default,
 .icon-delete {
   font-size: 20px;
+}
+
+.icon-delete {
   color: #ef4444;
 }
 

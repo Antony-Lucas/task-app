@@ -18,7 +18,6 @@ export const updateUser = async (id, updateData) => {
   try {
     const response = await apiClient.patch(`user/${id}`, updateData);
     SuccessToastMessage("Seu perfil foi atualizado", "top-center");
-    console.log(response.data);
     return response.data;
   } catch (error) {
     ErrorToastMessage(`Erro: ${error.response.data.message}`, "top-center");

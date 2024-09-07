@@ -13,3 +13,10 @@
   margin-top: 3rem;
   cursor: pointer;
 }
+
+.responsive-button {
+  display: none;
+  border-radius: 50px;
+  width: 60px;
+  height: 60px;
+}

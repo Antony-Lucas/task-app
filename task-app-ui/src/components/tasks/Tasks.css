@@ -1,0 +1,23 @@
+.tasks-container {
+  flex-grow: 1;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-gap: 15px;
+  width: 100%;
+  height: 100%; /* Ocupa 100% da altura do container */
+  overflow-y: auto; /* Rolagem no eixo Y */
+  margin-top: 15px;
+  padding-bottom: 15px;
+}
+
+@media (min-width: 750px) {
+  .tasks-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1250px) {
+  .tasks-container {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

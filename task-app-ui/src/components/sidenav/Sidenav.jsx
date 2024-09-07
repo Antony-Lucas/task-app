@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import Home from "../home/Home";
 import logoMyAsks from "../../assets/icons/logo-min.svg";
 import { HiOutlineHome } from "react-icons/hi2";
-import { HiOutlineClipboardList } from "react-icons/hi";
 import { HiChevronLeft } from "react-icons/hi";
 import "./Sidenav.css";
 
@@ -41,18 +40,6 @@ const Sidenav = () => {
             >
               <HiOutlineHome className="icon-style" />
               <span className={`${!open && "hidden"} `}>Home</span>
-            </Link>
-          </li>
-          <li className="menu-container">
-            <Link
-              to={Home}
-              className={`menu-item ${
-                activeMenu === "Tasks" ? "menu-active" : ""
-              }`}
-              onClick={() => handleMenuClick("Tasks")}
-            >
-              <HiOutlineClipboardList className="icon-style" />
-              <span className={`${!open && "hidden"}`}>Tarefas</span>
             </Link>
           </li>
         </ul>

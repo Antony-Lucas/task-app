@@ -20,10 +20,12 @@ const useUser = () => {
     createdAt: "",
     updatedAt: "",
   });
+
   const onOpenModal = () => {
     setOpen(true);
     fetchUserData();
   };
+
   const onOpenModalExclude = () => {
     setOpenExclude(true);
     fetchUserData();
