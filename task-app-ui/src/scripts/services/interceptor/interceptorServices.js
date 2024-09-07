@@ -9,7 +9,6 @@ const apiClient = axios.create({
   baseURL: apiUrl,
 });
 
-// Interceptor para adicionr o token nas requisicões
 apiClient.interceptors.request.use(
   async (config) => {
     const accessToken = getAccessToken();

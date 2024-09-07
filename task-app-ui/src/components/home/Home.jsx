@@ -4,7 +4,14 @@ import "./Home.css";
 
 const Home = () => {
   // const { auth } = useAuth();
-  return <div className="home-container"></div>;
+  return (
+    <div className="home-container">
+      <small>Quadro</small>
+      <div>
+        <div></div>
+      </div>
+    </div>
+  );
 };
 
 export default Home;

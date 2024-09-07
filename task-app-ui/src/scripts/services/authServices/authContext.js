@@ -1,6 +1,12 @@
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
-import { createContext, useContext, useEffect, useState } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import {
   ErrorToastMessage,
   SuccessToastMessage,
@@ -33,6 +39,7 @@ export function AuthProvider({ children }) {
           },
         }
       );
+      console.log(response.data);
       const { access_token, refresh_token, userData } = response.data;
       const firstName = userData.name.split(" ")[0];
       setAuth(response.data.userData);
@@ -70,12 +77,13 @@ export function AuthProvider({ children }) {
         password,
       });
       const { access_token, refresh_token, userData } = response.data;
+      const firstName = userData.name.split(" ")[0];
       setAuth(response.data.userData);
       sessionStorage.setItem("userData", JSON.stringify(userData));
       sessionStorage.setItem("access_token", access_token);
       sessionStorage.setItem("refresh_token", refresh_token);
       SuccessToastMessage(
-        `Olá '${username}' seja bem vindo ao My tasks`,
+        `Olá '${firstName}' seja bem vindo ao My tasks`,
         "top-center"
       );
     } catch (error) {
@@ -91,6 +99,7 @@ export function AuthProvider({ children }) {
       }
       setAuth(null);
       ErrorToastMessage(errorMessage, "top-right");
+      throw error;
     }
   };
 
@@ -120,13 +129,16 @@ export function AuthProvider({ children }) {
       const response = await axios.post(ApiUrl + "auth/refresh_token", {
         refresh_token: refreshToken,
       });
+      sessionStorage.setItem("access_token", response.data.access_token);
+      sessionStorage.setItem("refresh_token", response.data.refresh_token);
+
       setAuth((prevAuth) => ({
         ...prevAuth,
         access_token: response.data.access_token,
         refresh_token: response.data.refresh_token,
       }));
-      sessionStorage.setItem("access_token", response.data.access_token);
-      sessionStorage.setItem("refresh_token", response.data.refresh_token);
+
+      startTokenRefreshInterval();
     } catch (error) {
       console.error("Refresh token failed", error);
       logout();
@@ -148,22 +160,23 @@ export function AuthProvider({ children }) {
       const token = sessionStorage.getItem("access_token");
       console.log(token);
       if (isTokenExpiringSoon(token)) {
+        console.log("Token expirando, atualizando...");
         refreshToken();
       }
-    }, 3 * 60 * 1000);
+    }, 2 * 60 * 1000);
 
     setAuth((prevAuth) => ({ ...prevAuth, interval }));
   }
 
-  function clearTokenRefreshInterval() {
+  const clearTokenRefreshInterval = useCallback(() => {
     if (auth?.interval) {
       clearInterval(auth.interval);
     }
-  }
+  }, [auth]);
 
   useEffect(() => {
     return () => clearTokenRefreshInterval();
-  });
+  }, [clearTokenRefreshInterval]);
 
   const value = {
     auth,

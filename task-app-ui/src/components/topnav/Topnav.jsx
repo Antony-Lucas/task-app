@@ -1,36 +1,81 @@
-import React from "react";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import Home from "../home/Home";
 import { HiOutlineSearch } from "react-icons/hi";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { HiOutlineUser } from "react-icons/hi";
 import { HiOutlineLogout } from "react-icons/hi";
 import { HiOutlineTrash } from "react-icons/hi";
+import { HiOutlineHome } from "react-icons/hi2";
+import { HiOutlineClipboardList } from "react-icons/hi";
+import { HiExclamation } from "react-icons/hi";
 import { HiMenu } from "react-icons/hi";
 import { Modal } from "react-responsive-modal";
 import ReactLoading from "react-loading";
 import "./Topnav.css";
 import "react-responsive-modal/styles.css";
+import "././../../styles/icons/icons.css";
 import "././../../styles/components/inputs/FormInputs.css";
 import "././../../styles/components/buttons/MenuButtons.css";
+import "././../../styles/components/buttons/DeleteButtons.css";
 import "././../../styles/components/modal/Modal.css";
 import useUser from "../../scripts/hooks/useUser";
 
 const Topnav = () => {
+  const [activeMenu, setActiveMenu] = useState("Home");
+
   const {
     userData,
     setUserData,
     loading,
     open,
     onOpenModal,
+    openExclude,
+    onOpenModalExclude,
     onCloseModal,
+    onCloseExcludeModal,
     handleLogout,
     updateUserData,
+    deleteUserData,
   } = useUser();
+
+  const handleMenuClick = (menu) => {
+    setActiveMenu(menu);
+  };
 
   return (
     <div className="container-top">
-      <button className="hamburguer-menu">
-        <HiMenu className="icon-style-hamburguer" />
-      </button>
+      <Menu>
+        <MenuButton className="hamburguer-menu">
+          <HiMenu className="icon-style-hamburguer" />
+        </MenuButton>
+        <MenuItems transition anchor="bottom end" className="menu-items">
+          <MenuItem>
+            <Link
+              to={Home}
+              className={`menu-item ${
+                activeMenu === "Home" ? "menu-active" : ""
+              }`}
+              onClick={() => handleMenuClick("Home")}
+            >
+              <HiOutlineHome className="icon-style" />
+              <span>Home</span>
+            </Link>
+          </MenuItem>
+          <MenuItem>
+            <Link
+              to={Home}
+              className={`menu-item ${
+                activeMenu === "Tasks" ? "menu-active" : ""
+              }`}
+              onClick={() => handleMenuClick("Tasks")}
+            >
+              <HiOutlineClipboardList className="icon-style" />
+              <span>Tarefas</span>
+            </Link>
+          </MenuItem>
+        </MenuItems>
+      </Menu>
       <div className="search-block">
         <HiOutlineSearch className="icon-search" />
         <input className="form-input" type="text" placeholder="Buscar" />
@@ -72,8 +117,8 @@ const Topnav = () => {
             <HiOutlineUser className="icon-style-menu" />
             <h4>{userData.name ? userData.name : "user"}</h4>
           </div>
-          <button>
-            <HiOutlineTrash className="icon-delete-profile" />
+          <button onClick={onOpenModalExclude}>
+            <HiOutlineTrash className="icon-delete" />
           </button>
         </div>
         <form className="main-form" onSubmit={updateUserData}>
@@ -123,6 +168,14 @@ const Topnav = () => {
             placeholder="••••••••"
             autoComplete="current-password"
           />
+          <div className="user-date-info">
+            <small>
+              <strong>Criado em:</strong> {userData.createdAt}
+            </small>
+            <small>
+              <strong>Atualizado em:</strong> {userData.updatedAt}
+            </small>
+          </div>
           <button className="button-primary" type="submit" disabled={loading}>
             {loading ? (
               <ReactLoading
@@ -136,6 +189,28 @@ const Topnav = () => {
             )}
           </button>
         </form>
+      </Modal>
+      <Modal
+        open={openExclude}
+        onClose={onCloseExcludeModal}
+        classNames={{ overlay: "custom-overlay", modal: "custom-modal" }}
+        center
+      >
+        <div className="exclude-details-modal">
+          <div>
+            <HiExclamation className="icon-warn" />
+            <h4>Deseja mesmo excluir sua conta?</h4>
+          </div>
+          <span>Esta ação não pode ser desfeita</span>
+          <div className="exclude-buttons">
+            <button className="menu-button" onClick={onCloseExcludeModal}>
+              <span>Cancelar</span>
+            </button>
+            <button className="button-delete" onClick={deleteUserData}>
+              <span>Excluir minha conta</span>
+            </button>
+          </div>
+        </div>
       </Modal>
     </div>
   );

@@ -1,5 +1,9 @@
 import { useCallback, useEffect, useState } from "react";
-import { getUserById, updateUser } from "../services/userServices/UserServices";
+import {
+  deleteUser,
+  getUserById,
+  updateUser,
+} from "../services/userServices/UserServices";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../services/authServices/authContext";
 
@@ -7,6 +11,7 @@ const useUser = () => {
   const { auth, logout } = useAuth();
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
+  const [openExclude, setOpenExclude] = useState(false);
   const [userData, setUserData] = useState({
     name: "",
     username: "",
@@ -15,14 +20,22 @@ const useUser = () => {
     createdAt: "",
     updatedAt: "",
   });
-
   const onOpenModal = () => {
     setOpen(true);
     fetchUserData();
   };
-
+  const onOpenModalExclude = () => {
+    setOpenExclude(true);
+    fetchUserData();
+  };
   const navigate = useNavigate();
   const onCloseModal = () => setOpen(false);
+  const onCloseExcludeModal = () => setOpenExclude(false);
+
+  const handleLogout = async () => {
+    await logout();
+    navigate("/login");
+  };
 
   const fetchUserData = useCallback(async () => {
     if (!auth || !auth.id) {
@@ -39,13 +52,6 @@ const useUser = () => {
       setLoading(false);
     }
   }, [auth]);
-
-  // useEffect para buscar os dados quando o auth estiver disponível
-  useEffect(() => {
-    if (auth?.id) {
-      fetchUserData();
-    }
-  }, [auth, fetchUserData]);
 
   const updateUserData = async (e) => {
     e.preventDefault();
@@ -69,10 +75,20 @@ const useUser = () => {
     }
   };
 
-  const handleLogout = async () => {
-    await logout();
-    navigate("/login");
+  const deleteUserData = async (e) => {
+    e.preventDefault();
+    try {
+      deleteUser(auth.id, handleLogout);
+    } catch {
+      console.log(e);
+    }
   };
+
+  useEffect(() => {
+    if (auth?.id) {
+      fetchUserData();
+    }
+  }, [auth, fetchUserData]);
 
   return {
     userData,
@@ -80,10 +96,14 @@ const useUser = () => {
     loading,
     open,
     onOpenModal,
+    openExclude,
+    onOpenModalExclude,
     onCloseModal,
+    onCloseExcludeModal,
     handleLogout,
     fetchUserData,
     updateUserData,
+    deleteUserData,
   };
 };
 

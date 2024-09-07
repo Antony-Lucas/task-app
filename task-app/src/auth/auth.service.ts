@@ -133,7 +133,7 @@ export class AuthService {
     });
 
     if (!refreshToken) {
-      throw new UnauthorizedException('Reefresh token inválido');
+      throw new UnauthorizedException('Refresh token inválido');
     }
 
     if (refreshToken.expiresAt < new Date()) {

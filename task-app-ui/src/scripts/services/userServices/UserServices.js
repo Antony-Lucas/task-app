@@ -5,8 +5,6 @@ import {
 } from "../toastServices/ToastServices";
 
 export const getUserById = async (id) => {
-  const token = sessionStorage.getItem("access_token");
-  console.log(token);
   try {
     const response = await apiClient.get(`user/${id}`);
     return response.data;
@@ -17,8 +15,6 @@ export const getUserById = async (id) => {
 };
 
 export const updateUser = async (id, updateData) => {
-  const token = sessionStorage.getItem("access_token");
-  console.log(token);
   try {
     const response = await apiClient.patch(`user/${id}`, updateData);
     SuccessToastMessage("Seu perfil foi atualizado", "top-center");
@@ -26,6 +22,17 @@ export const updateUser = async (id, updateData) => {
     return response.data;
   } catch (error) {
     ErrorToastMessage(`Erro: ${error.response.data.message}`, "top-center");
+    throw error;
+  }
+};
+
+export const deleteUser = async (id, logout) => {
+  try {
+    const response = apiClient.delete(`user/${id}`);
+    logout();
+    return response.data;
+  } catch (error) {
+    ErrorToastMessage("Ocorreu um erro ao excluir sua conta");
     throw error;
   }
 };
