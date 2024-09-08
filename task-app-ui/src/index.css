@@ -47,6 +47,10 @@ label {
   color: #808080;
 }
 
+textarea {
+  resize: none;
+}
+
 .Toastify__toast-body {
   font-size: 0.8rem;
 }

@@ -66,7 +66,10 @@ const Topnav = () => {
       </div>
       <Menu>
         <MenuButton className="user-initials">
-          <span>{userData.name ? userData.name : "Carregando..."}</span>
+          <div>
+            <span>{userData.name ? userData.name : "Carregando..."}</span>
+            <small>@{userData.username}</small>
+          </div>
           <span>
             {userData.name
               .split(" ")
@@ -93,7 +96,10 @@ const Topnav = () => {
       <Modal
         open={open}
         onClose={onCloseModal}
-        classNames={{ overlay: "custom-overlay", modal: "custom-modal" }}
+        classNames={{
+          overlay: "custom-overlay",
+          modal: "custom-modal",
+        }}
         center
       >
         <div className="user-details-modal">

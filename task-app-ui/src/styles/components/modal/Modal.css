@@ -6,6 +6,7 @@
 .custom-modal {
   border-radius: 6px;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
+  max-width: 500px !important;
 }
 
 .react-responsive-modal-closeButton {

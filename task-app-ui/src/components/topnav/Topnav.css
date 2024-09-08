@@ -46,6 +46,19 @@
   border: none;
 }
 
+.user-initials div {
+  display: flex;
+  flex-direction: column;
+  justify-content: baseline;
+  align-items: end;
+}
+
+.user-initials div small {
+  font-size: 0.6rem;
+  color: #757575;
+  margin-right: 12px;
+}
+
 .user-initials span:nth-child(1) {
   margin-right: 12px;
 }
@@ -124,7 +137,8 @@
     display: block;
   }
 
-  .user-initials span:nth-child(1) {
+  .user-initials span:nth-child(1),
+  .user-initials small {
     display: none;
   }
 

@@ -2,7 +2,10 @@ import React from "react";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { HiDotsHorizontal } from "react-icons/hi";
 import { HiOutlineTrash } from "react-icons/hi";
-import { HiOutlinePencil } from "react-icons/hi";
+import { HiOutlineRefresh } from "react-icons/hi";
+import { HiOutlinePencilAlt } from "react-icons/hi";
+import { HiOutlineClock } from "react-icons/hi";
+import { HiOutlineCheckCircle } from "react-icons/hi";
 import { HiExclamation } from "react-icons/hi";
 import { useTasks } from "../../scripts/services/taskcontext/TaskContext";
 import "././../../styles/icons/icons.css";
@@ -22,6 +25,7 @@ const Tasks = () => {
     formatPriority,
     openModal,
     setTaskData,
+    updateTaskStatus,
     openOpenTaskModal,
     onCloseTaskModal,
     handleStatusChange,
@@ -29,11 +33,16 @@ const Tasks = () => {
     deleteTaskData,
     handlePriorityChange,
   } = useTasks();
+
   return (
     <div className="tasks-container">
       {filteredTaskList && filteredTaskList.length > 0 ? (
         filteredTaskList.map((task) => (
-          <div className="card-task" key={task.id}>
+          <div
+            className="card-task"
+            key={task.id}
+            onClick={() => openOpenTaskModal("edit", task.id)}
+          >
             <div className="card-info-header">
               <div>
                 <small className={`status status-${task.status}`}>
@@ -44,7 +53,10 @@ const Tasks = () => {
                 </small>
               </div>
               <Menu>
-                <MenuButton className="menu-button">
+                <MenuButton
+                  className="menu-button"
+                  onClick={(e) => e.stopPropagation()}
+                >
                   <HiDotsHorizontal className="icon-default" />
                 </MenuButton>
                 <MenuItems
@@ -52,16 +64,49 @@ const Tasks = () => {
                   anchor="bottom end"
                   className="menu-items"
                 >
-                  <MenuItem>
+                  <MenuItem onClick={(e) => e.stopPropagation()}>
+                    <button
+                      className={`menu-button ${
+                        task.status === "COMPLETED" ? "no-completed-task" : ""
+                      }`}
+                      onClick={() => updateTaskStatus(task.id, "COMPLETED")}
+                    >
+                      <HiOutlineCheckCircle className="icon-completed space" />
+                      <span>Concluir tarefa</span>
+                    </button>
+                  </MenuItem>
+                  <MenuItem onClick={(e) => e.stopPropagation()}>
+                    <button
+                      className={`menu-button ${
+                        task.status === "PENDING" ? "no-completed-task" : ""
+                      }`}
+                      onClick={() => updateTaskStatus(task.id, "PENDING")}
+                    >
+                      <HiOutlineRefresh className="icon-pending space" />
+                      <span>Reabrir tarefa</span>
+                    </button>
+                  </MenuItem>
+                  <MenuItem onClick={(e) => e.stopPropagation()}>
+                    <button
+                      className={`menu-button ${
+                        task.status === "IN_PROGRESS" ? "no-completed-task" : ""
+                      }`}
+                      onClick={() => updateTaskStatus(task.id, "IN_PROGRESS")}
+                    >
+                      <HiOutlineClock className="icon-in-progress space" />
+                      <span>Tarefa em andamento</span>
+                    </button>
+                  </MenuItem>
+                  <MenuItem onClick={(e) => e.stopPropagation()}>
                     <button
                       className="menu-button"
                       onClick={() => openOpenTaskModal("edit", task.id)}
                     >
-                      <HiOutlinePencil className="icon-default space" />
+                      <HiOutlinePencilAlt className="icon-edit space" />
                       <span>Editar</span>
                     </button>
                   </MenuItem>
-                  <MenuItem>
+                  <MenuItem onClick={(e) => e.stopPropagation()}>
                     <button
                       className="menu-button"
                       onClick={() => openOpenTaskModal("exclude", task.id)}
@@ -73,7 +118,11 @@ const Tasks = () => {
                 </MenuItems>
               </Menu>
             </div>
-            <h5>{task.title}</h5>
+            <h5 title={task.title}>
+              {task.title.length > 50
+                ? task.title.substring(0, 50) + "..."
+                : task.title}
+            </h5>
             <p>
               {task.description.length > 110
                 ? task.description.substring(0, 110) + "..."
@@ -89,7 +138,9 @@ const Tasks = () => {
           </div>
         ))
       ) : (
-        <p>Nenhuma tarefa encontrada.</p>
+        <div className="empty-task-list">
+          <span>Nenhuma tarefa encontrada.</span>
+        </div>
       )}
       {openModal === "edit" && (
         <Modal

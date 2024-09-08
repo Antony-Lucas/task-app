@@ -68,6 +68,7 @@ const useUser = () => {
       const updateData = await updateUser(auth.id, dataToUpdate);
       setUserData({ ...updateData, password: "" });
       getUserById(auth.id);
+      onCloseModal();
     } catch (e) {
       console.log(e);
     } finally {

@@ -38,6 +38,15 @@ export const TaskProvider = ({ children }) => {
   });
 
   const openOpenTaskModal = (modalChange, taskId = null) => {
+    if (modalChange === "create") {
+      setTaskData({
+        title: "",
+        description: "",
+        status: "PENDING",
+        priority: "MEDIUM",
+        userId: auth.id,
+      });
+    }
     setOpenModal(modalChange);
     setSelectedTaskId(taskId);
   };
@@ -109,13 +118,31 @@ export const TaskProvider = ({ children }) => {
         userId: auth.id,
       };
       const updatedTask = await updateTask(selectedTaskId, dataRequest);
-      setTaskList((prevTaskList) =>
-        prevTaskList.map((task) =>
+
+      setTaskList((prevTaskList) => {
+        const updatedTaskList = prevTaskList.map((task) =>
           task.id === selectedTaskId ? { ...task, ...updatedTask } : task
-        )
-      );
-      countTasksByStatus(taskList);
+        );
+        countTasksByStatus(updatedTaskList); // Atualiza os contadores com a lista atualizada
+        return updatedTaskList;
+      });
+
       onCloseTaskModal();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const updateTaskStatus = async (taskId, status) => {
+    try {
+      const updatedTask = await updateTask(taskId, { status });
+      setTaskList((prevTaskList) => {
+        const updatedTaskList = prevTaskList.map((task) =>
+          task.id === taskId ? { ...task, ...updatedTask } : task
+        );
+        countTasksByStatus(updatedTaskList); // Atualiza os contadores com a lista atualizada
+        return updatedTaskList;
+      });
     } catch (error) {
       console.log(error);
     }
@@ -238,6 +265,7 @@ export const TaskProvider = ({ children }) => {
         formatStatus,
         formatPriority,
         setTaskData,
+        updateTaskStatus,
         openModal,
         openOpenTaskModal,
         onCloseTaskModal,

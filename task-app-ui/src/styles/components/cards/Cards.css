@@ -32,6 +32,7 @@
 }
 
 .card-task {
+  cursor: pointer;
   background-color: #fff;
   padding: 15px;
   height: 12rem;
