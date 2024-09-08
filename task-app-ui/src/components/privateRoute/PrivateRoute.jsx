@@ -1,9 +1,9 @@
 import React from "react";
 import { Navigate, Outlet } from "react-router-dom";
-import { useAuth } from "../../scripts/services/authServices/authContext";
 import Sidenav from "../sidenav/Sidenav";
 import Topnav from "../topnav/Topnav";
-import { FilterProvider } from "../../scripts/services/filterContext/FilterContext";
+import { TaskProvider } from "../../scripts/services/taskcontext/TaskContext";
+import { useAuth } from "../../scripts/services/authcontext/authContext";
 function PrivateRoute() {
   const { auth } = useAuth();
   if (auth === null) {
@@ -14,10 +14,10 @@ function PrivateRoute() {
     <div style={{ display: "flex" }}>
       <Sidenav />
       <div style={{ flex: 1, padding: "0", backgroundColor: "#f4f6f8" }}>
-        <FilterProvider>
+        <TaskProvider>
           <Topnav />
           <Outlet />
-        </FilterProvider>
+        </TaskProvider>
       </div>
     </div>
   ) : (

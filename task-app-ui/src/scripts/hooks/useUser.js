@@ -5,7 +5,7 @@ import {
   updateUser,
 } from "../services/userServices/UserServices";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../services/authServices/authContext";
+import { useAuth } from "../services/authcontext/authContext";
 
 const useUser = () => {
   const { auth, logout } = useAuth();

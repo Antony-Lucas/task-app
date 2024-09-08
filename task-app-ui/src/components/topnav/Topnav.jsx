@@ -11,6 +11,8 @@ import { HiExclamation } from "react-icons/hi";
 import { HiMenu } from "react-icons/hi";
 import { Modal } from "react-responsive-modal";
 import ReactLoading from "react-loading";
+import useUser from "../../scripts/hooks/useUser";
+import { useTasks } from "../../scripts/services/taskcontext/TaskContext";
 import "./Topnav.css";
 import "react-responsive-modal/styles.css";
 import "././../../styles/icons/icons.css";
@@ -18,11 +20,10 @@ import "././../../styles/components/inputs/FormInputs.css";
 import "././../../styles/components/buttons/MenuButtons.css";
 import "././../../styles/components/buttons/DeleteButtons.css";
 import "././../../styles/components/modal/Modal.css";
-import useUser from "../../scripts/hooks/useUser";
-import { useFilterContext } from "../../scripts/services/filterContext/FilterContext";
+import "././../../styles/components/modalmenu/ModalMenu.css";
 
 const Topnav = () => {
-  const { searchTerm, handleSearchChange } = useFilterContext();
+  const { searchTerm, handleSearchChange } = useTasks();
   const {
     userData,
     setUserData,

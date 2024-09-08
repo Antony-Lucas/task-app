@@ -7,10 +7,10 @@ import {
 import LoginOrRegister from "./components/loginOrRegister/LoginOrRegister";
 import Home from "./components/home/Home";
 import PrivateRoute from "./components/privateRoute/PrivateRoute";
-import { AuthProvider } from "./scripts/services/authServices/authContext";
 import { useEffect, useState } from "react";
 import ReactLoading from "react-loading";
 import "./App.css";
+import { AuthProvider } from "./scripts/services/authcontext/authContext";
 
 function App() {
   const [loading, setLoading] = useState(true);

@@ -51,6 +51,7 @@
 
 .card-task p {
   font-size: 0.8rem;
+  height: 50%;
 }
 
 .card-task small,

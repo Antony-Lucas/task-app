@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import useLoginSignupHook from "./LoginOrRegisterHook";
-import { useAuth } from "../../scripts/services/authServices/authContext";
 import { useNavigate } from "react-router-dom";
 import mainCharLogin from "../../assets/icons/loginOrRegister/3d_char_login.svg";
 import logoMyAsks from "../../assets/icons/logo.svg";
@@ -10,6 +9,7 @@ import "./LoginOrRegister.css";
 import "././../../styles/components/inputs/FormInputs.css";
 import "././../../styles/components/buttons/PrimaryButtons.css";
 import "././../../styles/components/buttons/LinkButtons.css";
+import { useAuth } from "../../scripts/services/authcontext/authContext";
 
 const LoginOrRegister = () => {
   const navigate = useNavigate();

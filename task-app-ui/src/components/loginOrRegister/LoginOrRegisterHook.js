@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { useAuth } from "../../scripts/services/authServices/authContext";
 import { useNavigate } from "react-router-dom";
 import useUser from "../../scripts/hooks/useUser";
+import { useAuth } from "../../scripts/services/authcontext/authContext";
 
 function useLoginSignupHook(setLoading, setIsLogging) {
   const [name, setName] = useState("");
