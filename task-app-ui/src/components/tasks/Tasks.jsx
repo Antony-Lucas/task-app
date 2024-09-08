@@ -19,7 +19,12 @@ const Tasks = () => {
             </small>
           </div>
           <h5>{task.title}</h5>
-          <p>{task.description}</p>
+          <p>
+            {task.description.length > 150
+              ? task.description.substring(0, 150) + "..."
+              : task.description}
+          </p>
+
           <small>Criado em: {task.createdAt}</small>
           <small>Atualizado em: {task.updatedAt}</small>
         </div>

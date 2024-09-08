@@ -8,19 +8,22 @@ import "././../../styles/icons/icons.css";
 import "./Home.css";
 import useTasks from "../../scripts/hooks/useTasks";
 import Modal from "react-responsive-modal";
-import Tasks from "../tasks/Tasks";
+import { useFilterContext } from "../../scripts/services/filterContext/FilterContext";
 
 const Home = () => {
+  const { filteredTaskList } = useFilterContext();
   const {
     taskData,
     taskCounts,
-    setTaskData,
     openModal,
+    setTaskData,
     openOpenTaskModal,
     onCloseTaskModal,
     handleStatusChange,
     handlePriorityChange,
     createTaskData,
+    formatStatus,
+    formatPriority,
   } = useTasks();
 
   return (
@@ -69,6 +72,7 @@ const Home = () => {
         <form className="main-form" onSubmit={createTaskData}>
           <label>Título</label>
           <input
+            maxLength={255}
             className="form-input"
             type="text"
             value={taskData.title}
@@ -160,7 +164,33 @@ const Home = () => {
           </button>
         </form>
       </Modal>
-      <Tasks />
+      <div className="tasks-container">
+        {filteredTaskList.map((task) => (
+          <div className="card-task" key={task.id}>
+            <div className="card-info-s-p">
+              <small className={`status status-${task.status}`}>
+                {formatStatus(task.status)}
+              </small>
+              <small className={`priority priority-${task.priority}`}>
+                {formatPriority(task.priority)}
+              </small>
+            </div>
+            <h5>{task.title}</h5>
+            <p>
+              {task.description.length > 110
+                ? task.description.substring(0, 110) + "..."
+                : task.description}
+            </p>
+
+            <small className="created-update-lb">
+              Criado em: {task.createdAt}
+            </small>
+            <small className="created-update-lb">
+              Atualizado em: {task.updatedAt}
+            </small>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

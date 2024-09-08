@@ -64,11 +64,11 @@ li {
 }
 
 *::-webkit-scrollbar-track:hover {
-  background-color: #b8c0c2;
+  background-color: #dfe9eb;
 }
 
 *::-webkit-scrollbar-track:active {
-  background-color: #b8c0c2;
+  background-color: #dfe9eb;
 }
 
 *::-webkit-scrollbar-thumb {

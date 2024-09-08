@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useAuth } from "../services/authServices/authContext";
 import { createTask, getTasks } from "../services/tasksServices/TasksServices";
 
@@ -75,7 +75,7 @@ const useTasks = () => {
     }));
   };
 
-  const getAllTasks = async () => {
+  const getAllTasks = useCallback(async () => {
     try {
       const tasksData = await getTasks();
       const userTasks = tasksData.filter((task) => task.userId === auth.id);
@@ -84,20 +84,21 @@ const useTasks = () => {
     } catch (error) {
       console.log(error);
     }
-  };
+  }, [auth.id]);
 
   useEffect(() => {
     getAllTasks();
-  });
+  }, [auth.id, getAllTasks]);
 
   const createTaskData = async (e) => {
     e.preventDefault();
     try {
       console.log(taskData);
-      await createTask(taskData);
+      const newTask = await createTask(taskData);
+      setTaskList((prevTaskList) => [newTask, ...prevTaskList]);
+      countTasksByStatus([newTask, ...taskList]);
       onCloseTaskModal();
       setTaskData(defaultTaskData);
-      getAllTasks();
     } catch (error) {
       console.log(error);
     }
@@ -122,12 +123,12 @@ const useTasks = () => {
   };
 
   return {
-    taskList,
     taskData,
     taskCounts,
     formatStatus,
     formatPriority,
     setTaskData,
+    setTaskList,
     openModal,
     openOpenTaskModal,
     onCloseTaskModal,

@@ -66,6 +66,7 @@ const LoginOrRegister = () => {
           <form className="main-form" onSubmit={handleSubmit}>
             <label>Email</label>
             <input
+              maxLength={255}
               className="form-input"
               type="email"
               value={email}
@@ -75,6 +76,7 @@ const LoginOrRegister = () => {
             ></input>
             <label>Senha</label>
             <input
+              maxLength={255}
               className="form-input"
               type="password"
               value={password}
@@ -101,6 +103,7 @@ const LoginOrRegister = () => {
           <form className="main-form" onSubmit={handleSignUp}>
             <label>Nome completo</label>
             <input
+              maxLength={255}
               className="form-input"
               type="text"
               value={name}
@@ -110,6 +113,7 @@ const LoginOrRegister = () => {
             />
             <label>Nome de usuário</label>
             <input
+              maxLength={120}
               className="form-input"
               type="text"
               placeholder="seu_nome"
@@ -123,6 +127,7 @@ const LoginOrRegister = () => {
             <br />
             <label>Email</label>
             <input
+              maxLength={120}
               className="form-input"
               type="email"
               placeholder="me@email.com"
@@ -132,6 +137,7 @@ const LoginOrRegister = () => {
             />
             <label>Senha</label>
             <input
+              maxLength={255}
               className="form-input"
               type="password"
               placeholder="••••••••"

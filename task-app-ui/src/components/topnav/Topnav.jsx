@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import Home from "../home/Home";
 import { HiOutlineSearch } from "react-icons/hi";
@@ -19,10 +19,10 @@ import "././../../styles/components/buttons/MenuButtons.css";
 import "././../../styles/components/buttons/DeleteButtons.css";
 import "././../../styles/components/modal/Modal.css";
 import useUser from "../../scripts/hooks/useUser";
+import { useFilterContext } from "../../scripts/services/filterContext/FilterContext";
 
 const Topnav = () => {
-  const [activeMenu, setActiveMenu] = useState("Home");
-
+  const { searchTerm, handleSearchChange } = useFilterContext();
   const {
     userData,
     setUserData,
@@ -38,10 +38,6 @@ const Topnav = () => {
     deleteUserData,
   } = useUser();
 
-  const handleMenuClick = (menu) => {
-    setActiveMenu(menu);
-  };
-
   return (
     <div className="container-top">
       <Menu>
@@ -50,13 +46,7 @@ const Topnav = () => {
         </MenuButton>
         <MenuItems transition anchor="bottom end" className="menu-items">
           <MenuItem>
-            <Link
-              to={Home}
-              className={`menu-item ${
-                activeMenu === "Home" ? "menu-active" : ""
-              }`}
-              onClick={() => handleMenuClick("Home")}
-            >
+            <Link to={Home} className={`menu-item menu-active`}>
               <HiOutlineHome className="icon-style" />
               <span>Home</span>
             </Link>
@@ -65,7 +55,13 @@ const Topnav = () => {
       </Menu>
       <div className="search-block">
         <HiOutlineSearch className="icon-search" />
-        <input className="form-input" type="text" placeholder="Buscar" />
+        <input
+          className="form-input"
+          type="text"
+          placeholder="Buscar"
+          value={searchTerm}
+          onChange={handleSearchChange}
+        />
       </div>
       <Menu>
         <MenuButton className="user-initials">
