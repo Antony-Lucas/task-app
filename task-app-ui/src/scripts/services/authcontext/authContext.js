@@ -32,7 +32,6 @@ export function AuthProvider({ children }) {
           },
         }
       );
-      console.log(response.data);
       const { access_token, refresh_token, userData } = response.data;
       const firstName = userData.name.split(" ")[0];
       setAuth(response.data.userData);
@@ -79,7 +78,6 @@ export function AuthProvider({ children }) {
         "top-center"
       );
     } catch (error) {
-      console.log(error);
       let errorMessage =
         "A tentativa de registro falhou, verifique sua conexão com servidor";
       if (
