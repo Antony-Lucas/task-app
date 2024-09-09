@@ -3,3 +3,8 @@
 
 ### Link do Repositório:
 https://github.com/Antony-Lucas/task-app-jack-experts.git
+
+## Instruções Gerais
+
+### Documentação:
+- Este README inclui instruções detalhadas de como rodar o projeto e as decisões tomadas durante o desenvolvimento.
