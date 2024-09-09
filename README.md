@@ -91,6 +91,8 @@ enum Priority {
 ```
 ## Decisões Técnicas no Desenvolvimento da Aplicação
 
+###Back-end
+
 Durante o desenvolvimento dessa aplicação, foram tomadas várias decisões técnicas que visam garantir a escalabilidade, segurança e organização do código. Aqui estão algumas pontuações sobre minhas escolhas:
 
 ### 1. Uso do Prisma como ORM
@@ -140,7 +142,128 @@ O **bcryptJs** é utilizado para criptografar as senhas dos usuários antes de a
 
 Essas decisões foram tomadas para garantir que o sistema seja escalável, seguro e fácil de manter, além de proporcionar uma experiência de desenvolvimento eficiente.
 
+###Front-end
 
+## Estrutura do Projeto
+
+O projeto é uma aplicação React que usa contextos para autenticação e gerenciamento de tarefas. O fluxo principal é dividido em componentes e hooks personalizados para manter a lógica organizada e reutilizável.
+
+## Estrutura de Arquivos
+
+- **`App.js`**: O componente principal que configura o roteamento e o contexto de autenticação.
+- **`components/loginOrRegister.js`**: Componente para gerenciar o login e registro na aplicação.
+- **`components/home.js`**: Componente pai para organizar os elementos das tarefas.
+- **`components/tasks.js`**: Componente para renderização das tarefas.
+- **`components/Sidenav.js`**: Componente de navegação lateral.
+- **`components/Topnav.js`**: Componente de navegação superior.
+- **`hooks/useUser.js`**: Hook personalizado para gerenciar dados do usuário e autenticação.
+- **`services/userService.js`**: Funções para realizar operações com a API relacionadas ao usuário.
+- **`PrivateRoute.js`**: Componente que gerencia o acesso às rotas privadas.
+
+## Componentes Principais
+
+### `App.js`
+
+O componente principal `App` gerencia o estado de carregamento inicial e define as rotas da aplicação. Utiliza o `AuthProvider` para fornecer o contexto de autenticação a todos os componentes filhos. As rotas principais incluem:
+
+- **`"/"`**: Redireciona para `"/home"`.
+- **`"/login"`**: Renderiza o componente `LoginOrRegister`.
+- **`"/home"`**: Protegido por `PrivateRoute` e renderiza o componente `Home`.
+
+### `AuthProvider`
+
+O `AuthProvider` é responsável por gerenciar a autenticação do usuário. Ele usa o estado local para armazenar informações de autenticação e fornece métodos para login, registro e logout:
+
+- **`login`**: Realiza login do usuário e armazena tokens e dados no `sessionStorage`.
+- **`signUp`**: Registra um novo usuário e armazena dados de autenticação.
+- **`logout`**: Faz logout e limpa os dados de autenticação.
+
+### `Sidenav`
+
+O `Sidenav` é a barra de navegação lateral que permite a navegação entre diferentes seções da aplicação. Inclui:
+
+- **Menu**: Links para diferentes seções.
+- **Botão de Toggle**: Para abrir e fechar o menu lateral.
+
+### `Topnav`
+
+O `Topnav` é a barra de navegação superior que inclui:
+
+- **Menu de Usuário**: Exibe informações do usuário e fornece opções para atualizar o perfil e sair da aplicação.
+- **Campo de Busca**: Para realizar buscas na aplicação.
+
+### `useUser` (Hook Personalizado)
+
+O hook `useUser` fornece uma interface para gerenciar e atualizar dados do usuário. Inclui funções para:
+
+- **`fetchUserData`**: Buscar dados do usuário.
+- **`updateUserData`**: Atualizar dados do usuário.
+- **`deleteUserData`**: Excluir a conta do usuário.
+- **`handleLogout`**: Realizar logout e redirecionar para a página de login.
+
+### `userService.js`
+
+Este arquivo contém funções para interagir com a API relacionadas ao usuário:
+
+- **`updateUser`**: Atualiza os dados do usuário e exibe uma mensagem de sucesso.
+- **`deleteUser`**: Exclui a conta do usuário e realiza logout.
+
+- # Task Management Context
+
+O `TaskContext` fornece um contexto para gerenciar tarefas em uma aplicação React. Ele inclui funcionalidades para criar, atualizar, deletar e filtrar tarefas. O contexto também fornece funções utilitárias para formatar status e prioridade das tarefas, bem como gerenciar modais e filtros de busca.
+
+## Providers e Hooks
+
+### TaskProvider
+
+O `TaskProvider` é responsável por fornecer o contexto das tarefas para os componentes filhos. Ele utiliza os hooks `useState`, `useEffect`, `useCallback` e `useAuth` para gerenciar o estado das tarefas e interagir com o serviço de autenticação.
+
+### TasksServices
+
+O `TasksServices` fornece funções para interagir com a API de tarefas.
+
+### ToastServices
+
+O `ToastServices` fornece funções para exibir mensagens de toast (notificações).
+
+#### Funções principais
+
+- **SuccessToastMessage(message, position)**: Exibe uma mensagem de sucesso.
+- **ErrorToastMessage(message, position)**: Exibe uma mensagem de erro.
+
+## Interceptor
+
+O interceptor configura a autenticação e o gerenciamento de tokens com Axios.
+
+### Configurações principais
+
+- **getAccessToken()**: Obtém o token de acesso do `sessionStorage`.
+- **getRefreshToken()**: Obtém o token de refresh do `sessionStorage`.
+- **apiClient**: Instância do Axios configurada com interceptores.
+
+### Interceptores
+
+- **Request Interceptor**: Adiciona o token de acesso no cabeçalho das requisições.
+- **Response Interceptor**: Gerencia a resposta de erro 401 e realiza a renovação do token, se necessário.
+
+#### Funções principais
+
+- **addTokenToSessionStorage(accessToken, refreshToken)**: Armazena os tokens no `sessionStorage`.
+- 
+### `PrivateRoute`
+
+O componente `PrivateRoute` protege as rotas privadas. Exibe um carregamento até que as informações de autenticação estejam disponíveis e, se o usuário estiver autenticado, renderiza o layout com o `Sidenav` e o `Topnav`.
+
+## Decisões de funcionalidades 
+
+- **Contextos**: Usamos `AuthProvider` para fornecer o estado de autenticação para toda a aplicação, garantindo que a lógica de autenticação e a gestão de tokens estejam centralizadas e acessíveis em qualquer parte da aplicação.
+- **Componentização**: Dividimos a aplicação em componentes como `Sidenav` e `Topnav` para uma melhor separação de preocupações e reutilização de código.
+- **Hooks Personalizados**: Utilizamos o hook `useUser` para encapsular a lógica de gerenciamento do usuário, permitindo um código mais limpo e modular.
+- **Rotas Protegidas**: O componente `PrivateRoute` protege as rotas que requerem autenticação, redirecionando usuários não autenticados para a página de login.
+- 
 ## Docker
 - Optei por usar o Docker para facilitar a configuração do ambiente de desenvolvimento e execução do projeto
 - Também usei docker compose pra orquestrar os contêiners docker
+
+
+
