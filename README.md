@@ -1,5 +1,6 @@
 # Task App - Jack Experts
-![iPhone-13-PRO-localhost](https://github.com/user-attachments/assets/64c2e93b-b664-4eee-8f62-65691ba1bd30)
+<img src="![iPhone-13-PRO-localhost](https://github.com/user-attachments/assets/64c2e93b-b664-4eee-8f62-65691ba1bd30)" width="48">
+
 ![Captura de tela 2024-09-08 204426](https://github.com/user-attachments/assets/1043cd51-9bb7-4a8e-a70e-981a830a36fa)
 
 <p>Este projeto é uma aplicação completa para gerenciamento de tarefas, utilizando NestJS no back-end e React no front-end, com autenticação e autorização baseadas em JWT. A API foi construída utilizando MySQL como banco de dados, gerenciado via Prisma ORM, com containers Docker para facilitar a execução.</p>
