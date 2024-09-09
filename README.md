@@ -34,6 +34,8 @@ https://github.com/Antony-Lucas/task-app-jack-experts.git
    ```
 3. Acessos:
 > aplicação React(UI): http://localhost:80
+</br>
 > API: http://localhost:3000
+</br>
 > documentação Swagger: http://localhost:3000/api.
    
