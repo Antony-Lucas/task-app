@@ -32,4 +32,8 @@ https://github.com/Antony-Lucas/task-app-jack-experts.git
    ```
    docker compose up --build
    ```
-3. Acesse a API em > http://localhost:3000 e a documentação Swagger em > http://localhost:3000/api.
+3. Acessos:
+> aplicação React(UI): http://localhost:80
+> API: http://localhost:3000
+> documentação Swagger: http://localhost:3000/api.
+   
