@@ -100,8 +100,7 @@ Durante o desenvolvimento dessa aplicação, foram tomadas várias decisões té
 
 - **Desenvolvimento rápido**: O Prisma fornece uma sintaxe intuitiva, facilitando a criação de consultas e manipulação de dados.
 - **Migrações automáticas**: Geração e execução de migrações de banco de dados de maneira simples e eficaz.
-- **Validação de tipos**: Como o Prisma gera modelos tipados em TypeScript, há uma melhor integração com o TypeScript, garantindo que erros relacionados a tipos sejam detectados em tempo de compilação.
-- **Suporte a várias bases**: É compatível com diferentes bancos de dados, o que torna a aplicação escalável para diferentes cenários.
+- **Suporte a várias bases**: É compatível com diferentes bancos de dados mas nesse caso optei pelo mySQL até pela questão de estar trabalhando com ENUMS no projeto.
 
 ### 2. Uso de DTOs (Data Transfer Objects)
 
@@ -121,7 +120,7 @@ Durante o desenvolvimento dessa aplicação, foram tomadas várias decisões té
 
 ### 5. Criptografia de Senhas
 
-O **bcryptJs** é utilizado para criptografar as senhas dos usuários antes de armazená-las no banco de dados. Isso garante que as senhas não sejam armazenadas em texto plano, protegendo as informações sensíveis dos usuários em caso de vazamento de dados
+O **bcryptJs** vai ser utilizado para criptografar as senhas dos usuários antes de armazená-las no banco de dados. Isso garante que as senhas não sejam armazenadas em texto plano, protegendo as informações sensíveis dos usuários em caso de vazamento de dados
 
 ### 6. Autenticação com JWT
 
@@ -139,7 +138,7 @@ O **bcryptJs** é utilizado para criptografar as senhas dos usuários antes de a
 
 ### 9. Integração com Swagger
 
-- A integração com o Swagger usando as anotações `@ApiProperty` e `@ApiBearerAuth` nos DTOs e controllers permite a geração automática da documentação da API. Isso facilita a visualização e teste dos endpoints da API, além de fornecer uma interface amigável para outros desenvolvedores que consomem a API.
+- A integração com o Swagger usando as anotações `@ApiProperty` e `@ApiBearerAuth` nos DTOs e controllers vai permitir a geração automática da documentação da API. Isso facilita a visualização e teste dos endpoints da API, além de fornecer uma interface amigável para outras pessoas que consomem a API.
 
 Essas decisões foram tomadas para garantir que o sistema seja escalável, seguro e fácil de manter, além de proporcionar uma experiência de desenvolvimento eficiente.
 
