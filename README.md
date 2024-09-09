@@ -34,11 +34,12 @@ https://github.com/Antony-Lucas/task-app-jack-experts.git
     git clone https://github.com/Antony-Lucas/task-app-jack-experts.git
     cd task-app-jack-experts
    ```
-2. Suba os containers do Docker (MySQL,NestJS e a aplicação React):
+2. Abra o projeto em um editor de código da sua escolha(recomendo VsCode):
+3. Suba os containers do Docker (MySQL,NestJS e a aplicação React):
    ```
    docker compose up --build
    ```
-3. Acessos:
+4. Acessos:
 > aplicação React(UI): http://localhost:80
 
 > API: http://localhost:3000
