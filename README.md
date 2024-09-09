@@ -146,7 +146,7 @@ Essas decisões foram tomadas para garantir que o sistema seja escalável, segur
 
 ## Estrutura do Projeto
 
-O projeto é uma aplicação React que usa contextos para autenticação e gerenciamento de tarefas. O fluxo principal é dividido em componentes e hooks personalizados para manter a lógica organizada e reutilizável.
+O fluxo principal é dividido em componentes e hooks personalizados para manter a lógica organizada e reutilizável.
 
 ## Estrutura de Arquivos
 
