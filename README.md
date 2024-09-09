@@ -28,4 +28,8 @@ https://github.com/Antony-Lucas/task-app-jack-experts.git
     git clone https://github.com/Antony-Lucas/task-app-jack-experts.git
     cd task-app-jack-experts
    ```
-2. 
+2. Suba os containers do Docker (MySQL,NestJS e a aplicação React):
+   ```
+   docker compose up --build
+   ```
+3. Acesse a API em > http://localhost:3000 e a documentação Swagger em > http://localhost:3000/api.
