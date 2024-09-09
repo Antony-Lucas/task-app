@@ -91,7 +91,7 @@ enum Priority {
 ```
 ## Decisões Técnicas no Desenvolvimento da Aplicação
 
-###Back-end
+# Back-end
 
 Durante o desenvolvimento dessa aplicação, foram tomadas várias decisões técnicas que visam garantir a escalabilidade, segurança e organização do código. Aqui estão algumas pontuações sobre minhas escolhas:
 
@@ -142,7 +142,7 @@ O **bcryptJs** é utilizado para criptografar as senhas dos usuários antes de a
 
 Essas decisões foram tomadas para garantir que o sistema seja escalável, seguro e fácil de manter, além de proporcionar uma experiência de desenvolvimento eficiente.
 
-###Front-end
+# Front-end
 
 ## Estrutura do Projeto
 
