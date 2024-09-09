@@ -1,0 +1,57 @@
+version: "3.8"
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: jackexperts
+      MYSQL_USER: jackexperts
+      MYSQL_PASSWORD: rootjackexperts
+    ports:
+      - "3306:3306"
+    networks:
+      - app-network
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./task-app/init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  nest-app:
+    build:
+      context: ./task-app
+      dockerfile: Dockerfile
+    container_name: nest-app
+    env_file:
+      - ./task-app/.env
+    ports:
+      - "3000:3000"
+    networks:
+      - app-network
+    depends_on:
+      mysql:
+        condition: service_healthy
+    restart: on-failure
+
+  react-app:
+    build:
+      context: ./task-app-ui
+      dockerfile: Dockerfile
+    container_name: react-app
+    ports:
+      - "80:80"
+    networks:
+      - app-network
+    restart: on-failure
+
+volumes:
+  mysql-data:
+
+networks:
+  app-network:
+    driver: bridge
