@@ -38,4 +38,52 @@ https://github.com/Antony-Lucas/task-app-jack-experts.git
 > API: http://localhost:3000
 
 > documentação Swagger: http://localhost:3000/api.
-   
+
+### Estrutura do Banco de Dados
+- O banco de dados foi modelado usando Prisma e MySQL com as seguintes tabelas principais:
+
+- User: Armazena dados dos usuários.
+- Tasks: Cada tarefa está associada a um usuário, com campos para status, prioridade, e timestamps.
+- RefreshToken: Tabela para controle de tokens de atualização.
+- enums para setar os valores padrões dos status e prioridades
+
+Schema Prisma usado:
+```
+model User {
+  id         Int      @id @default(autoincrement())
+  username   String   @unique
+  password   String
+  name       String
+  email      String   @unique
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  tasks      Tasks[]  @relation("UserTasks")
+}
+
+model Tasks {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String?
+  status      Status   @default(PENDING)
+  priority    Priority @default(MEDIUM)
+  userId      Int
+  user        User     @relation("UserTasks", fields: [userId], references: [id])
+}
+
+enum Status {
+  PENDING
+  IN_PROGRESS
+  COMPLETED
+}
+
+enum Priority {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+```
+
+## Docker
+- Optei por usar o Docker para facilitar a configuração do ambiente de desenvolvimento e execução do projeto
+- Também usei docker compose pra orquestrar os contêiners docker
