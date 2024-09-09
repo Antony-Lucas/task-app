@@ -142,6 +142,9 @@ O **bcryptJs** vai ser utilizado para criptografar as senhas dos usuários antes
 
 Essas decisões foram tomadas para garantir que o sistema seja escalável, seguro e fácil de manter, além de proporcionar uma experiência de desenvolvimento eficiente.
 
+![image](https://github.com/user-attachments/assets/f920ee45-e7c0-435b-8d4a-13d8365c6f54)
+
+
 # Front-end
 
 ## Estrutura do Projeto
@@ -265,5 +268,6 @@ O componente `PrivateRoute` protege as rotas privadas. Exibe um carregamento at�
 - Optei por usar o Docker para facilitar a configuração do ambiente de desenvolvimento e execução do projeto
 - Também usei docker compose pra orquestrar os contêiners docker
 
+![image](https://github.com/user-attachments/assets/f2948522-6876-4af6-b243-7b1895dd2a17)
 
 
