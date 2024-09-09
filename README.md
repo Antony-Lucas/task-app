@@ -8,3 +8,24 @@ https://github.com/Antony-Lucas/task-app-jack-experts.git
 
 ### Documentação:
 - Este README inclui instruções detalhadas de como rodar o projeto e as decisões tomadas durante o desenvolvimento.
+
+## Tecnologias Utilizadas
+- Backend: NestJS, Prisma ORM, MySQL
+- Frontend: React, Axios, React-Router-Dom
+- Autenticação: JWT
+- Docker: Configuração completa para ambiente local com Docker Compose
+- Swagger: Disponível em localhost:3000/api para documentação e teste da API
+
+## Requisitos
+- npm ou yarn
+- Node.js: v20 ou superior
+- Docker: Última versão estável
+
+## Executando o Projeto
+
+1. Clone o repositório:
+   ```
+    git clone https://github.com/Antony-Lucas/task-app-jack-experts.git
+    cd task-app-jack-experts
+   ```
+2. 
