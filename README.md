@@ -15,7 +15,8 @@ https://github.com/Antony-Lucas/task-app.git
 This README includes detailed instructions on how to run the project and the decisions made during development.
 
 ## Technologies Used
-- **Backend**: NestJS, Prisma ORM, MySQL  
+- **Database**: MySQL 
+- **Backend**: NestJS, Prisma ORM 
 - **Frontend**: React, Axios, React-Router-Dom  
 - **Authentication**: JWT  
 - **Docker**: Complete configuration for local environment with Docker Compose  
