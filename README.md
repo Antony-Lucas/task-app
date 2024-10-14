@@ -31,8 +31,8 @@ https://github.com/Antony-Lucas/task-app.git
 
 1. Clone o repositório:
    ```
-    git clone https://github.com/Antony-Lucas/task-app-jack-experts.git
-    cd task-app-jack-experts
+    git clone https://github.com/Antony-Lucas/task-app.git
+    cd task-app
    ```
 2. Abra o projeto em um editor de código da sua escolha(recomendo VsCode):
 3. Suba os containers do Docker (MySQL,NestJS e a aplicação React):
