@@ -20,8 +20,8 @@ function corsManagement(app: INestApplication) {
 
 function swaggerConfig(app: INestApplication) {
   const config = new DocumentBuilder()
-    .setTitle('Task API - Jack Experts')
-    .setDescription('Aplicação de tarefas para o desafio Jack experts')
+    .setTitle('Task API')
+    .setDescription('Task app documentation')
     .setVersion('0.1')
     .addBearerAuth({
       type: 'http',
